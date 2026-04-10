@@ -1,4 +1,3 @@
-
 export const config = {
   api: {
     bodyParser: false,
@@ -9,6 +8,10 @@ export default async function handler(req, res) {
   try {
     const ACCESS_KEY = process.env.HIVE_ACCESS_KEY;
     const SECRET_KEY = process.env.HIVE_SECRET_KEY;
+
+    if (!ACCESS_KEY || !SECRET_KEY) {
+      return res.status(500).json({ error: "Faltan claves en el backend" });
+    }
 
     const chunks = [];
     for await (const chunk of req) {
@@ -33,7 +36,8 @@ export default async function handler(req, res) {
 
     const data = await hiveResponse.json();
     res.status(200).json(data);
+
   } catch (error) {
-    res.status(500).json({ error: "Error en el backend" });
+    res.status(500).json({ error: "Error en el backend", detalle: error.message });
   }
 }
