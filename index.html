@@ -91,7 +91,10 @@
   </div>
 
   <script>
-    const API_KEY = "AQUI_TU_API_KEY_DE_HIVE"; // Reemplazar por la API Key real
+    // ⭐ REEMPLAZA ESTAS DOS LÍNEAS CON TUS CLAVES DE HIVE
+    const ACCESS_KEY = "AQUI_TU_ACCESS_KEY_ID";
+    const SECRET_KEY = "AQUI_TU_SECRET_KEY";
+
     const fileInput = document.getElementById("fileInput");
     const preview   = document.getElementById("preview");
     const btn       = document.getElementById("btnAnalizar");
@@ -133,10 +136,12 @@
         const formData = new FormData();
         formData.append("image", imagenSeleccionada);
 
-        const response = await fetch("https://api.thehive.ai/api/v1/models/ai-generated-image/detect", {
+        // ⭐ Endpoint real de Hive API V3
+        const response = await fetch("https://api.thehive.ai/api/v3/ai-generated-image/detect", {
           method: "POST",
           headers: {
-            "Authorization": `Token ${API_KEY}`
+            "x-api-key": ACCESS_KEY,
+            "x-api-secret": SECRET_KEY
           },
           body: formData
         });
@@ -147,9 +152,8 @@
 
         const data = await response.json();
 
-        // Ajustar según el formato real de respuesta de la API
-        // Ejemplo genérico:
-        const score = data.output?.ai_generated_score ?? null;
+        // ⭐ Ajuste según formato V3
+        const score = data?.output?.ai_generated_score ?? null;
 
         if (score === null) {
           throw new Error("No se pudo interpretar la respuesta del modelo");
@@ -160,7 +164,7 @@
       } catch (err) {
         console.error(err);
         resultado.textContent = "";
-        errorBox.textContent = "Ocurrió un problema al analizar la imagen. Revisa la API Key o intenta nuevamente.";
+        errorBox.textContent = "Ocurrió un problema al analizar la imagen. Revisa las claves o intenta nuevamente.";
       } finally {
         btn.disabled = false;
       }
