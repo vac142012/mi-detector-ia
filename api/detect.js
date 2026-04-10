@@ -23,9 +23,9 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: "No se recibió ninguna imagen" });
     }
 
-    // Modelo que sí funciona y sí detecta manipulación
+    // Modelo que SÍ funciona y SÍ detecta manipulación
     const response = await fetch(
-      "https://api-inference.huggingface.co/models/microsoft/vision-debias",
+      "https://api-inference.huggingface.co/models/unifiedai/image-moderation",
       {
         method: "POST",
         headers: {
