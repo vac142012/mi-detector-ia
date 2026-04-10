@@ -12,7 +12,6 @@ export default async function handler(req, res) {
       return res.status(500).json({ error: "Falta HF_TOKEN en Vercel" });
     }
 
-    // Leer la imagen enviada desde el frontend
     const chunks = [];
     for await (const chunk of req) {
       chunks.push(chunk);
@@ -23,7 +22,6 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: "No se recibió ninguna imagen" });
     }
 
-    // Llamar al modelo REAL que sí funciona y sí devuelve JSON
     const response = await fetch(
       "https://api-inference.huggingface.co/models/falconsai/nsfw_image_detection",
       {
@@ -38,7 +36,6 @@ export default async function handler(req, res) {
 
     const text = await response.text();
 
-    // Intentar parsear JSON
     let result;
     try {
       result = JSON.parse(text);
