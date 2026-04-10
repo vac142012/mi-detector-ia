@@ -12,32 +12,47 @@ export default async function handler(req, res) {
       return res.status(500).json({ error: "Falta HF_TOKEN en Vercel" });
     }
 
+    // Leer la imagen enviada desde el frontend
     const chunks = [];
     for await (const chunk of req) {
       chunks.push(chunk);
     }
     const buffer = Buffer.concat(chunks);
 
-    const formData = new FormData();
-    const blob = new Blob([buffer], { type: "image/jpeg" });
-    formData.append("image", blob, "image.jpg");
+    if (!buffer || buffer.length === 0) {
+      return res.status(400).json({ error: "No se recibió ninguna imagen" });
+    }
 
+    // Enviar el binario crudo a HuggingFace (sin FormData)
     const response = await fetch(
-      "https://api-inference.huggingface.co/models/falconsai/nsfw_image_detection",
+      "https://api-inference.huggingface.co/models/microsoft/vision-ai-image-analyzer",
       {
         method: "POST",
         headers: {
-          "Authorization": `Bearer ${HF_TOKEN}`
+          "Authorization": `Bearer ${HF_TOKEN}`,
+          "Content-Type": "image/jpeg"
         },
-        body: formData
+        body: buffer
       }
     );
 
-    const result = await response.json();
-    res.status(200).json(result);
+    const text = await response.text();
+
+    // Intentar parsear como JSON; si no se puede, devolver el texto para ver qué responde HF
+    let result;
+    try {
+      result = JSON.parse(text);
+    } catch (e) {
+      return res.status(500).json({
+        error: "Respuesta no JSON desde HuggingFace",
+        raw: text
+      });
+    }
+
+    return res.status(200).json(result);
 
   } catch (error) {
-    res.status(500).json({
+    return res.status(500).json({
       error: "Error en el backend",
       detalle: error.message
     });
