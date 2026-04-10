@@ -1,6 +1,3 @@
-import { FormData } from "formdata-node";
-import { fileFromBuffer } from "formdata-node/file-from-buffer";
-
 export const config = {
   api: {
     bodyParser: false,
@@ -16,28 +13,29 @@ export default async function handler(req, res) {
       return res.status(500).json({ error: "Faltan claves en el backend" });
     }
 
-    // Leer el archivo enviado desde el frontend
+    // Leer el cuerpo (la imagen) que viene del frontend
     const chunks = [];
     for await (const chunk of req) {
       chunks.push(chunk);
     }
     const buffer = Buffer.concat(chunks);
 
-    // Convertir buffer → archivo real
-    const file = await fileFromBuffer(buffer, "image.jpg");
-
-    // Crear FormData compatible con Node
+    // Usar FormData nativo de Node 18 (Vercel)
     const formData = new FormData();
-    formData.set("image", file);
+    const blob = new Blob([buffer], { type: "image/jpeg" });
+    formData.append("image", blob, "image.jpg");
 
-    // Enviar a Hive
+    // Armar cabecera Authorization (usa ambas claves)
+    const basicToken = Buffer
+      .from(`${ACCESS_KEY}:${SECRET_KEY}`)
+      .toString("base64");
+
     const hiveResponse = await fetch(
       "https://api.thehive.ai/api/v3/ai-generated-image/detect",
       {
         method: "POST",
         headers: {
-          "x-api-key": ACCESS_KEY,
-          "x-api-secret": SECRET_KEY
+          "Authorization": `Basic ${basicToken}`
         },
         body: formData
       }
@@ -47,6 +45,9 @@ export default async function handler(req, res) {
     res.status(200).json(data);
 
   } catch (error) {
-    res.status(500).json({ error: "Error en el backend", detalle: error.message });
+    res.status(500).json({
+      error: "Error en el backend",
+      detalle: error.message
+    });
   }
 }
