@@ -23,7 +23,7 @@ export default async function handler(req, res) {
     formData.append("image", blob, "image.jpg");
 
     const response = await fetch(
-      "https://api-inference.huggingface.co/models/umm-maybe/ai-image-detector",
+      "https://api-inference.huggingface.co/models/microsoft/beit-base-patch16-224-pt22k-ft22k",
       {
         method: "POST",
         headers: {
