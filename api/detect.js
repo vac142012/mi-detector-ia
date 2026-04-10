@@ -1,4 +1,5 @@
-import FormData from "form-data";
+import { FormData } from "formdata-node";
+import { fileFromBuffer } from "formdata-node/file-from-buffer";
 
 export const config = {
   api: {
@@ -22,12 +23,12 @@ export default async function handler(req, res) {
     }
     const buffer = Buffer.concat(chunks);
 
+    // Convertir buffer → archivo real
+    const file = await fileFromBuffer(buffer, "image.jpg");
+
     // Crear FormData compatible con Node
     const formData = new FormData();
-    formData.append("image", buffer, {
-      filename: "image.jpg",
-      contentType: "image/jpeg",
-    });
+    formData.set("image", file);
 
     // Enviar a Hive
     const hiveResponse = await fetch(
@@ -36,8 +37,7 @@ export default async function handler(req, res) {
         method: "POST",
         headers: {
           "x-api-key": ACCESS_KEY,
-          "x-api-secret": SECRET_KEY,
-          ...formData.getHeaders()
+          "x-api-secret": SECRET_KEY
         },
         body: formData
       }
