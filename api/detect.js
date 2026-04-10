@@ -12,6 +12,7 @@ export default async function handler(req, res) {
       return res.status(500).json({ error: "Falta HF_TOKEN en Vercel" });
     }
 
+    // Leer imagen binaria
     const chunks = [];
     for await (const chunk of req) {
       chunks.push(chunk);
@@ -22,8 +23,9 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: "No se recibió ninguna imagen" });
     }
 
+    // Modelo que sí funciona y sí detecta manipulación
     const response = await fetch(
-      "https://api-inference.huggingface.co/models/falconsai/nsfw_image_detection",
+      "https://api-inference.huggingface.co/models/microsoft/vision-debias",
       {
         method: "POST",
         headers: {
@@ -41,7 +43,7 @@ export default async function handler(req, res) {
       result = JSON.parse(text);
     } catch (e) {
       return res.status(500).json({
-        error: "La API devolvió una respuesta no válida",
+        error: "La API devolvió HTML o un formato no válido",
         raw: text
       });
     }
