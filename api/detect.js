@@ -13,29 +13,22 @@ export default async function handler(req, res) {
       return res.status(500).json({ error: "Faltan claves en el backend" });
     }
 
-    // Leer el cuerpo (la imagen) que viene del frontend
     const chunks = [];
     for await (const chunk of req) {
       chunks.push(chunk);
     }
     const buffer = Buffer.concat(chunks);
 
-    // Usar FormData nativo de Node 18 (Vercel)
     const formData = new FormData();
     const blob = new Blob([buffer], { type: "image/jpeg" });
     formData.append("image", blob, "image.jpg");
-
-    // Armar cabecera Authorization (usa ambas claves)
-    const basicToken = Buffer
-      .from(`${ACCESS_KEY}:${SECRET_KEY}`)
-      .toString("base64");
 
     const hiveResponse = await fetch(
       "https://api.thehive.ai/api/v3/ai-generated-image/detect",
       {
         method: "POST",
         headers: {
-          "Authorization": `Basic ${basicToken}`
+          "Authorization": `Token ${ACCESS_KEY}`
         },
         body: formData
       }
