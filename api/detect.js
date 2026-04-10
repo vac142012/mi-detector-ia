@@ -6,41 +6,35 @@ export const config = {
 
 export default async function handler(req, res) {
   try {
-    const ACCESS_KEY = process.env.HIVE_ACCESS_KEY;
-    const SECRET_KEY = process.env.HIVE_SECRET_KEY;
+    const HF_TOKEN = process.env.HF_TOKEN;
 
-    if (!ACCESS_KEY || !SECRET_KEY) {
-      return res.status(500).json({ error: "Faltan claves en el backend" });
+    if (!HF_TOKEN) {
+      return res.status(500).json({ error: "Falta HF_TOKEN en Vercel" });
     }
 
-    // Leer la imagen enviada desde el frontend
     const chunks = [];
     for await (const chunk of req) {
       chunks.push(chunk);
     }
     const buffer = Buffer.concat(chunks);
 
-    // FormData nativo de Node 18
     const formData = new FormData();
     const blob = new Blob([buffer], { type: "image/jpeg" });
     formData.append("image", blob, "image.jpg");
 
-    // Header correcto para Hive
-    const authHeader = `Hive ${ACCESS_KEY}:${SECRET_KEY}`;
-
-    const hiveResponse = await fetch(
-      "https://api.thehive.ai/api/v3/ai-generated-image/detect",
+    const response = await fetch(
+      "https://api-inference.huggingface.co/models/umm-maybe/ai-image-detector",
       {
         method: "POST",
         headers: {
-          "Authorization": authHeader
+          "Authorization": `Bearer ${HF_TOKEN}`
         },
         body: formData
       }
     );
 
-    const data = await hiveResponse.json();
-    res.status(200).json(data);
+    const result = await response.json();
+    res.status(200).json(result);
 
   } catch (error) {
     res.status(500).json({
