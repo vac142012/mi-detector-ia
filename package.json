@@ -1,1 +1,8 @@
-
+{
+  "name": "mi-detector-ia",
+  "version": "1.0.0",
+  "type": "module",
+  "dependencies": {
+    "formdata-node": "^6.0.0"
+  }
+}
