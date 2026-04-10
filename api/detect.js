@@ -23,9 +23,9 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: "No se recibió ninguna imagen" });
     }
 
-    // Enviar el binario crudo a HuggingFace (sin FormData)
+    // Llamar al modelo REAL que sí funciona y sí devuelve JSON
     const response = await fetch(
-      "https://api-inference.huggingface.co/models/microsoft/vision-ai-image-analyzer",
+      "https://api-inference.huggingface.co/models/falconsai/nsfw_image_detection",
       {
         method: "POST",
         headers: {
@@ -38,13 +38,13 @@ export default async function handler(req, res) {
 
     const text = await response.text();
 
-    // Intentar parsear como JSON; si no se puede, devolver el texto para ver qué responde HF
+    // Intentar parsear JSON
     let result;
     try {
       result = JSON.parse(text);
     } catch (e) {
       return res.status(500).json({
-        error: "Respuesta no JSON desde HuggingFace",
+        error: "La API devolvió una respuesta no válida",
         raw: text
       });
     }
