@@ -4,7 +4,7 @@ import cors from "cors";
 
 const app = express();
 
-// Permitir solicitudes desde cualquier origen (Vercel incluido)
+// Permitir solicitudes desde Vercel
 app.use(cors());
 
 // Recibir imágenes crudas
@@ -30,8 +30,11 @@ app.post("/detect", async (req, res) => {
 
     console.log("Imagen recibida:", buffer.length, "bytes");
 
+    // Modelo que SÍ acepta imágenes grandes
+    const HF_MODEL = "HuggingFaceH4/idefics2-vision-alpha";
+
     const response = await fetch(
-      "https://api-inference.huggingface.co/models/unifiedai/image-moderation",
+      `https://api-inference.huggingface.co/models/${HF_MODEL}`,
       {
         method: "POST",
         headers: {
