@@ -1,7 +1,13 @@
 import express from "express";
 import fetch from "node-fetch";
+import cors from "cors";
 
 const app = express();
+
+// Habilitar CORS para permitir requests desde Vercel
+app.use(cors());
+
+// Permitir recibir imágenes crudas
 app.use(express.raw({ type: "image/*", limit: "20mb" }));
 
 app.post("/detect", async (req, res) => {
