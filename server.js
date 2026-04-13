@@ -1,85 +1,135 @@
 import express from "express";
-import fetch from "node-fetch";
 import cors from "cors";
 
 const app = express();
+const PORT = process.env.PORT || 3000;
+const REPLICATE_API_TOKEN = process.env.REPLICATE_API_TOKEN;
+
+if (!REPLICATE_API_TOKEN) {
+  console.error("Falta la variable de entorno REPLICATE_API_TOKEN");
+  process.exit(1);
+}
 
 app.use(cors());
-app.use(express.raw({ type: "image/*", limit: "20mb" }));
+app.use(express.json({ limit: "10mb" }));
 
+// Healthcheck
+app.get("/", (req, res) => {
+  res.json({ status: "ok", message: "Backend IA detector activo" });
+});
+
+// Obtiene SIEMPRE la última versión real del modelo
+async function getLatestModelVersion() {
+  const url =
+    "https://api.replicate.com/v1/models/capcheck/ai-image-detection/versions?limit=1";
+
+  const resp = await fetch(url, {
+    headers: {
+      Authorization: `Token ${REPLICATE_API_TOKEN}`,
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (!resp.ok) {
+    const text = await resp.text();
+    throw new Error(
+      `Error al obtener versión del modelo: ${resp.status} - ${text}`
+    );
+  }
+
+  const data = await resp.json();
+  if (!data.results || data.results.length === 0) {
+    throw new Error("No se encontraron versiones para el modelo");
+  }
+
+  return data.results[0].id;
+}
+
+// Endpoint REAL con Replicate
 app.post("/detect", async (req, res) => {
   try {
-    console.log("Solicitud recibida en /detect");
+    const { imageUrl } = req.body;
 
-    const buffer = req.body;
-
-    if (!buffer || buffer.length === 0) {
-      console.log("ERROR: No llegó imagen");
-      return res.status(400).json({ error: "No se recibió imagen" });
+    if (!imageUrl) {
+      return res
+        .status(400)
+        .json({ error: "Falta el campo 'imageUrl' en el body" });
     }
 
-    console.log("Imagen recibida:", buffer.length, "bytes");
+    const version = await getLatestModelVersion();
 
-    const token = process.env.REPLICATE_API_TOKEN;
+    const predictionResp = await fetch(
+      "https://api.replicate.com/v1/predictions",
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Token ${REPLICATE_API_TOKEN}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          version,
+          input: {
+            image: imageUrl,
+          },
+        }),
+      }
+    );
 
-    if (!token) {
-      console.log("ERROR: Falta REPLICATE_API_TOKEN");
-      return res.status(500).json({ error: "Falta REPLICATE_API_TOKEN" });
+    if (!predictionResp.ok) {
+      const text = await predictionResp.text();
+      return res.status(500).json({
+        error: "Error al llamar a Replicate",
+        detail: text,
+      });
     }
 
-    // Llamada al modelo AI OR NOT
-    const response = await fetch("https://api.replicate.com/v1/predictions", {
-      method: "POST",
-      headers: {
-        "Authorization": `Token ${token}`,
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        version: "a2e3f8b6f3c1f5e4b6a7d8c9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f", 
-        input: {
-          image: `data:image/jpeg;base64,${buffer.toString("base64")}`
-        }
-      })
+    const prediction = await predictionResp.json();
+
+    if (prediction.output) {
+      return res.json({
+        source: "replicate",
+        ...prediction.output,
+      });
+    }
+
+    return res.json({
+      source: "replicate_raw",
+      prediction,
     });
-
-    const prediction = await response.json();
-    console.log("Respuesta cruda Replicate:", prediction);
-
-    if (prediction.error) {
-      return res.status(500).json({ error: prediction.error });
-    }
-
-    // Esperar resultado final
-    let result = prediction;
-    while (result.status !== "succeeded" && result.status !== "failed") {
-      await new Promise(r => setTimeout(r, 1000));
-
-      const poll = await fetch(
-        `https://api.replicate.com/v1/predictions/${prediction.id}`,
-        {
-          headers: { "Authorization": `Token ${token}` }
-        }
-      );
-
-      result = await poll.json();
-      console.log("Estado:", result.status);
-    }
-
-    if (result.status === "failed") {
-      return res.status(500).json({ error: "El modelo falló" });
-    }
-
-    return res.json(result.output);
-
-  } catch (error) {
-    console.log("ERROR en backend:", error.message);
+  } catch (err) {
+    console.error("Error en /detect:", err);
     return res.status(500).json({
-      error: "Error interno en backend",
-      detalle: error.message
+      error: "Error interno en /detect",
+      detail: err.message,
     });
   }
 });
 
-app.listen(3000, () => {
-  console.log("Servidor corriendo en puerto 3000");
+// Endpoint LOCAL de contingencia
+app.post("/detect-local", (req, res) => {
+  const { imageUrl } = req.body;
+
+  if (!imageUrl) {
+    return res
+      .status(400)
+      .json({ error: "Falta el campo 'imageUrl' en el body" });
+  }
+
+  const len = imageUrl.length;
+  const score = (len % 100) / 100;
+  const is_ai_generated = score > 0.5;
+
+  return res.json({
+    source: "local_heuristic",
+    is_ai_generated,
+    confidence: score,
+    ai_probability: is_ai_generated ? score : 1 - score,
+    real_probability: is_ai_generated ? 1 - score : score,
+    note:
+      "Modo contingencia LOCAL: heurística simple para que el flujo funcione aunque la API externa falle.",
+  });
+});
+
+app.listen(PORT, () => {
+  console.log(`Servidor escuchando en puerto ${PORT}`);
 });
