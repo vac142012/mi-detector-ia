@@ -20,9 +20,9 @@ app.post("/detect", async (req, res) => {
 
     console.log("Imagen recibida:", buffer.length, "bytes");
 
-    // Modelo gratuito y estable
+    // MODELO REAL, EXISTENTE Y FUNCIONAL
     const response = await fetch(
-      "https://fal.run/fal-ai/fast-sdxl-detector",
+      "https://fal.run/fal-ai/ai-image-detector",
       {
         method: "POST",
         headers: {
