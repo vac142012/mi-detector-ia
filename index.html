@@ -129,7 +129,6 @@
       btn.disabled = true;
 
       try {
-        // Enviar la imagen directamente como Blob
         const response = await fetch("https://mi-detector-ia-backend.onrender.com/detect", {
           method: "POST",
           headers: {
@@ -139,12 +138,11 @@
         });
 
         const data = await response.json();
+        console.log("Respuesta del backend:", data);
 
-        const score =
-          data?.output?.ai_generated_score ??
-          data?.score ??
-          data?.confidence ??
-          null;
+        // Replicate devuelve:
+        // { real_probability: 0.23, ai_probability: 0.77 }
+        const score = data?.ai_probability ?? null;
 
         if (score === null) {
           throw new Error("No se pudo interpretar la respuesta del modelo");
