@@ -21,11 +21,10 @@ app.post("/detect", upload.single("image"), async (req, res) => {
       return res.status(400).json({ error: "Falta el archivo de imagen" });
     }
 
-    // Convertir imagen a base64
     const base64 = req.file.buffer.toString("base64");
     const imageData = `data:${req.file.mimetype};base64,${base64}`;
 
-    // Modelo REAL que funciona hoy
+    // Modelo real que funciona hoy
     const versionId =
       "c7b3a5e2c8b54f0e9d3a2b1c4e5f6d7c8b9a0e1f2d3c4b5a6e7f8d9c0b1a2";
 
