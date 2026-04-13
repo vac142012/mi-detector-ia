@@ -4,22 +4,12 @@ import cors from "cors";
 
 const app = express();
 
-// Permitir solicitudes desde Vercel
 app.use(cors());
-
-// Recibir imágenes crudas
 app.use(express.raw({ type: "image/*", limit: "20mb" }));
 
 app.post("/detect", async (req, res) => {
   try {
     console.log("Solicitud recibida en /detect");
-
-    const HF_TOKEN = process.env.HF_TOKEN;
-
-    if (!HF_TOKEN) {
-      console.log("ERROR: Falta HF_TOKEN");
-      return res.status(500).json({ error: "Falta HF_TOKEN" });
-    }
 
     const buffer = req.body;
 
@@ -30,15 +20,12 @@ app.post("/detect", async (req, res) => {
 
     console.log("Imagen recibida:", buffer.length, "bytes");
 
-    // Modelo que SÍ acepta imágenes grandes
-    const HF_MODEL = "HuggingFaceH4/idefics2-vision-alpha";
-
+    // Modelo gratuito y estable
     const response = await fetch(
-      `https://api-inference.huggingface.co/models/${HF_MODEL}`,
+      "https://fal.run/fal-ai/fast-sdxl-detector",
       {
         method: "POST",
         headers: {
-          "Authorization": `Bearer ${HF_TOKEN}`,
           "Content-Type": "image/jpeg"
         },
         body: buffer
@@ -46,13 +33,13 @@ app.post("/detect", async (req, res) => {
     );
 
     const text = await response.text();
-    console.log("Respuesta cruda de HuggingFace:", text);
+    console.log("Respuesta cruda FAL:", text);
 
     let result;
     try {
       result = JSON.parse(text);
     } catch {
-      console.log("ERROR: HuggingFace devolvió HTML o texto no JSON");
+      console.log("ERROR: FAL devolvió formato inválido");
       return res.status(500).json({
         error: "La API devolvió un formato inválido",
         raw: text
