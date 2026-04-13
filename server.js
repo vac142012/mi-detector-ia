@@ -20,33 +20,56 @@ app.post("/detect", async (req, res) => {
 
     console.log("Imagen recibida:", buffer.length, "bytes");
 
-    // MODELO REAL, EXISTENTE Y FUNCIONAL
-    const response = await fetch(
-      "https://fal.run/fal-ai/ai-image-detector",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "image/jpeg"
-        },
-        body: buffer
-      }
-    );
+    const token = process.env.REPLICATE_API_TOKEN;
 
-    const text = await response.text();
-    console.log("Respuesta cruda FAL:", text);
-
-    let result;
-    try {
-      result = JSON.parse(text);
-    } catch {
-      console.log("ERROR: FAL devolvió formato inválido");
-      return res.status(500).json({
-        error: "La API devolvió un formato inválido",
-        raw: text
-      });
+    if (!token) {
+      console.log("ERROR: Falta REPLICATE_API_TOKEN");
+      return res.status(500).json({ error: "Falta REPLICATE_API_TOKEN" });
     }
 
-    return res.json(result);
+    // Llamada al modelo AI OR NOT
+    const response = await fetch("https://api.replicate.com/v1/predictions", {
+      method: "POST",
+      headers: {
+        "Authorization": `Token ${token}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        version: "a2e3f8b6f3c1f5e4b6a7d8c9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f", 
+        input: {
+          image: `data:image/jpeg;base64,${buffer.toString("base64")}`
+        }
+      })
+    });
+
+    const prediction = await response.json();
+    console.log("Respuesta cruda Replicate:", prediction);
+
+    if (prediction.error) {
+      return res.status(500).json({ error: prediction.error });
+    }
+
+    // Esperar resultado final
+    let result = prediction;
+    while (result.status !== "succeeded" && result.status !== "failed") {
+      await new Promise(r => setTimeout(r, 1000));
+
+      const poll = await fetch(
+        `https://api.replicate.com/v1/predictions/${prediction.id}`,
+        {
+          headers: { "Authorization": `Token ${token}` }
+        }
+      );
+
+      result = await poll.json();
+      console.log("Estado:", result.status);
+    }
+
+    if (result.status === "failed") {
+      return res.status(500).json({ error: "El modelo falló" });
+    }
+
+    return res.json(result.output);
 
   } catch (error) {
     console.log("ERROR en backend:", error.message);
