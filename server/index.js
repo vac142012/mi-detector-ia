@@ -10,7 +10,7 @@ const upload = multer({ dest: "uploads/" });
 
 app.use(cors());
 
-const API_KEY = "TU_API_KEY_AQUI";
+const API_KEY = process.env.DD_API_KEY;
 
 app.post("/analyze", upload.single("image"), async (req, res) => {
   try {
