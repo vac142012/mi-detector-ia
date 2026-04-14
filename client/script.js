@@ -1,125 +1,84 @@
 // elementos
 const input = document.getElementById("imageInput");
 const preview = document.getElementById("previewImage");
+const result = document.getElementById("result");
 const loader = document.getElementById("loader");
-const analyzeBtn = document.getElementById("analyzeBtn");
-const startBtn = document.getElementById("startBtn");
 
 const API_URL = "https://mi-detector-ia-backend.onrender.com";
 
-let currentImageURL = null;
+// ocultar preview al inicio
+preview.style.display = "none";
 
-// eventos
-startBtn.addEventListener("click", startApp);
-analyzeBtn.addEventListener("click", uploadImage);
-
-// iniciar app
+// intro
 function startApp() {
-document.getElementById("intro").style.display = "none";
-document.getElementById("app").classList.remove("hidden");
+  document.getElementById("intro").style.display = "none";
+  document.getElementById("app").classList.remove("hidden");
 }
 
-// preview imagen
+// 🖼️ mostrar imagen
 input.addEventListener("change", () => {
-const file = input.files[0];
+  const file = input.files[0];
 
-if (!file) return;
+  if (file) {
+    const url = URL.createObjectURL(file);
 
-if (!file.type.startsWith("image/")) {
-alert("Archivo no válido");
-return;
-}
+    preview.src = url;
+    preview.style.display = "block";
 
-if (file.size > 5 * 1024 * 1024) {
-alert("Máximo 5MB");
-return;
-}
-
-if (currentImageURL) {
-URL.revokeObjectURL(currentImageURL);
-}
-
-const url = URL.createObjectURL(file);
-currentImageURL = url;
-
-preview.src = url;
-preview.style.display = "block";
-
-resetResult();
+    result.innerText = "";
+  }
 });
 
-// analizar
+// 🔍 analizar imagen
 async function uploadImage() {
-if (!input.files.length) {
-alert("Selecciona una imagen");
-return;
-}
+  if (!input.files.length) {
+    result.innerText = "⚠️ Selecciona una imagen";
+    return;
+  }
 
-const formData = new FormData();
-formData.append("image", input.files[0]);
+  const formData = new FormData();
+  formData.append("image", input.files[0]);
 
-loader.classList.remove("hidden");
-analyzeBtn.disabled = true;
+  loader.classList.remove("hidden");
 
-try {
-const res = await fetch(`${API_URL}/analyze`, {
-method: "POST",
-body: formData
-});
+  try {
+    const response = await fetch(`${API_URL}/analyze`, {
+      method: "POST",
+      body: formData
+    });
 
-```
-if (!res.ok) throw new Error();
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error(errorText);
+      loader.classList.add("hidden");
+      result.innerText = "❌ Error en el servidor";
+      return;
+    }
 
-const data = await res.json();
-const score = data?.type?.ai_generated;
+    const data = await response.json();
 
-if (score === undefined) throw new Error();
+    loader.classList.add("hidden");
 
-showResult(score);
-```
+    const score = data?.type?.ai_generated;
 
-} catch {
-alert("Error al analizar");
-} finally {
-loader.classList.add("hidden");
-analyzeBtn.disabled = false;
-}
-}
+    if (score === undefined) {
+      result.innerText = "⚠️ No se pudo analizar";
+      return;
+    }
 
-// mostrar resultado
-function showResult(score) {
-const box = document.getElementById("resultBox");
-const label = document.getElementById("resultLabel");
-const percent = document.getElementById("resultPercent");
-const bar = document.getElementById("progressBar");
+    const percentage = (score * 100).toFixed(2);
 
-const percentage = (score * 100).toFixed(2);
+    if (score > 0.5) {
+      result.innerText = `⚠️ IA detectada (${percentage}%)`;
+      result.style.color = "#f87171";
+    } else {
+      result.innerText = `✅ Imagen real (${(100 - percentage).toFixed(2)}%)`;
+      result.style.color = "#4ade80";
+    }
 
-box.classList.remove("hidden");
-
-if (score >= 0.75) {
-label.innerText = "⚠️ Probablemente IA";
-label.style.color = "#f87171";
-} else if (score <= 0.25) {
-label.innerText = "✅ Probablemente real";
-label.style.color = "#4ade80";
-} else {
-label.innerText = "🤔 Resultado incierto";
-label.style.color = "#facc15";
-}
-
-percent.innerText = `${percentage}%`;
-
-setTimeout(() => {
-bar.style.width = `${percentage}%`;
-}, 100);
-}
-
-// reset resultado
-function resetResult() {
-const box = document.getElementById("resultBox");
-const bar = document.getElementById("progressBar");
-
-box.classList.add("hidden");
-bar.style.width = "0%";
+  } catch (error) {
+    console.error(error);
+    loader.classList.add("hidden");
+    result.innerText = "❌ Error de conexión";
+  }
 }
