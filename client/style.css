@@ -1,25 +1,16 @@
-/* GENERAL */
+/* =========================
+   GENERAL
+========================= */
 body {
   margin: 0;
-  font-family: Arial;
-  background: white;
+  font-family: Arial, sans-serif;
+  background: #ffffff;
   color: #111;
 }
 
-/* HEADER */
-.header {
-  display: flex;
-  align-items: center;
-  padding: 10px 20px;
-  border-bottom: 1px solid #ddd;
-}
-
-.header img {
-  height: 60px;
-  margin-right: 15px;
-}
-
-/* INTRO */
+/* =========================
+   INTRO
+========================= */
 .intro {
   position: fixed;
   top: 0;
@@ -34,42 +25,61 @@ body {
 
 .intro-content {
   text-align: center;
-  max-width: 400px;
+  max-width: 420px;
+  padding: 20px;
 }
 
-.hidden {
-  display: none;
+.intro-logo {
+  width: 120px;
+  margin-bottom: 10px;
 }
 
-/* APP */
+/* =========================
+   APP
+========================= */
 .container {
   padding: 20px;
 }
 
+/* ocultar */
+.hidden {
+  display: none;
+}
+
+/* top bar */
 .top-bar {
   display: flex;
   gap: 10px;
   margin-bottom: 20px;
 }
 
-/* GRID 2 COLUMNAS */
+/* =========================
+   GRID
+========================= */
 .grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 20px;
 }
 
-/* PANELES */
+/* panels */
 .panel {
   border: 1px solid #ddd;
   padding: 15px;
   border-radius: 10px;
   min-height: 300px;
+  background: #fafafa;
 }
 
-/* IMAGEN */
+/* imagen */
 .panel img {
   max-width: 100%;
-  display: none;
   border-radius: 10px;
+  display: none;
+}
+
+/* loader */
+#loader {
+  font-weight: bold;
+  margin-bottom: 10px;
 }
