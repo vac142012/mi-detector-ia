@@ -7,11 +7,13 @@ async function uploadImage() {
     return;
   }
 
-  const formData = new FormData();
-  formData.append("image", input.files[0]);
+  const file = input.files[0];
 
-  // 🔗 TU BACKEND EN RENDER
+  // 🔗 Backend en Render
   const API_URL = "https://mi-detector-ia-backend.onrender.com";
+
+  const formData = new FormData();
+  formData.append("image", file);
 
   try {
     result.innerText = "🔍 Analizando imagen...";
@@ -21,33 +23,34 @@ async function uploadImage() {
       body: formData
     });
 
-    // ❌ error del backend
     if (!response.ok) {
-      const errText = await response.text();
-      console.error("Error backend:", errText);
+      const errorText = await response.text();
+      console.error("Error backend:", errorText);
       result.innerText = "❌ Error en el servidor";
       return;
     }
 
     const data = await response.json();
-
     console.log("Respuesta API:", data);
 
-    // 🧠 Ajusta según respuesta de Deep Detect
-    const confidence = data.confidence
-      ? (data.confidence * 100).toFixed(2)
-      : "N/A";
+    // 🧠 Leer resultado de Sightengine
+    const score = data?.type?.ai_generated;
 
-    if (data.ai_generated === true) {
-      result.innerText = `⚠️ Imagen GENERADA por IA (${confidence}%)`;
-    } else if (data.ai_generated === false) {
-      result.innerText = `✅ Imagen REAL (${confidence}%)`;
+    if (score === undefined) {
+      result.innerText = "⚠️ No se pudo analizar la imagen";
+      return;
+    }
+
+    const percentage = (score * 100).toFixed(2);
+
+    if (score > 0.5) {
+      result.innerText = `⚠️ Imagen probablemente generada por IA (${percentage}%)`;
     } else {
-      result.innerText = "⚠️ No se pudo determinar la imagen";
+      result.innerText = `✅ Imagen probablemente real (${(100 - percentage).toFixed(2)}% confianza)`;
     }
 
   } catch (error) {
-    console.error(error);
+    console.error("Error conexión:", error);
     result.innerText = "❌ Error de conexión con el servidor";
   }
 }
