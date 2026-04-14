@@ -1,61 +1,85 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <title>Detector de Imágenes AI</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
+// elementos
+const input = document.getElementById("imageInput");
+const preview = document.getElementById("previewImage");
+const result = document.getElementById("result");
+const loader = document.getElementById("loader");
 
-  <!-- 🧠 INTRO -->
-  <div id="intro" class="intro">
-    <div class="intro-content">
-      <h1>🧠 Detector de Imágenes IA</h1>
+// 🔗 backend
+const API_URL = "https://mi-detector-ia-backend.onrender.com";
 
-      <p>
-        <strong>Proyecto Escolar – Tecnología / Computación</strong><br><br>
+// 🚀 iniciar app (intro)
+function startApp() {
+  document.getElementById("intro").style.display = "none";
+  document.getElementById("app").classList.remove("hidden");
+}
 
-        Esta página permite analizar imágenes y estimar si fueron generadas por Inteligencia Artificial.
-        Utiliza un modelo real que evalúa la probabilidad de que una imagen sea artificial.
-      </p>
+// 🖼️ mostrar preview cuando seleccionas imagen
+input.addEventListener("change", () => {
+  const file = input.files[0];
 
-      <h3>¿Cómo funciona?</h3>
-      <ul>
-        <li>Subes una imagen desde tu computador</li>
-        <li>Se envía a un modelo de análisis</li>
-        <li>Se obtiene un porcentaje de probabilidad</li>
-        <li>Se muestra el resultado en pantalla</li>
-      </ul>
+  if (file) {
+    const imageURL = URL.createObjectURL(file);
 
-      <h3>Importante</h3>
-      <p>
-        El resultado es una estimación, no una verdad absoluta.
-      </p>
+    preview.src = imageURL;
+    preview.style.display = "block";
 
-      <button onclick="startApp()">Comenzar</button>
-    </div>
-  </div>
+    result.innerText = ""; // limpiar resultado anterior
+  }
+});
 
-  <!-- 🚀 APP -->
-  <div id="app" class="container hidden">
+// 🔍 analizar imagen
+async function uploadImage() {
+  if (!input.files.length) {
+    result.innerText = "⚠️ Selecciona una imagen";
+    return;
+  }
 
-    <h1>🧠 Detector de Imágenes IA</h1>
+  const formData = new FormData();
+  formData.append("image", input.files[0]);
 
-    <div class="upload-box">
-      <input type="file" id="imageInput" accept="image/*" />
-      <button onclick="uploadImage()">Analizar imagen</button>
-    </div>
+  loader.classList.remove("hidden");
+  result.innerText = "";
 
-    <div class="preview">
-      <img id="previewImage" src="" alt="preview" />
-    </div>
+  try {
+    const response = await fetch(`${API_URL}/analyze`, {
+      method: "POST",
+      body: formData
+    });
 
-    <div id="loader" class="hidden">🔍 Analizando...</div>
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error("Error backend:", errorText);
+      loader.classList.add("hidden");
+      result.innerText = "❌ Error en el servidor";
+      return;
+    }
 
-    <div id="result" class="result"></div>
+    const data = await response.json();
 
-  </div>
+    loader.classList.add("hidden");
 
-  <script src="script.js"></script>
-</body>
-</html>
+    console.log("Respuesta API:", data);
+
+    const score = data?.type?.ai_generated;
+
+    if (score === undefined) {
+      result.innerText = "⚠️ No se pudo analizar la imagen";
+      return;
+    }
+
+    const percentage = (score * 100).toFixed(2);
+
+    if (score > 0.5) {
+      result.innerText = `⚠️ Imagen generada por IA (${percentage}%)`;
+      result.style.color = "#f87171";
+    } else {
+      result.innerText = `✅ Imagen real (${(100 - percentage).toFixed(2)}%)`;
+      result.style.color = "#4ade80";
+    }
+
+  } catch (error) {
+    console.error(error);
+    loader.classList.add("hidden");
+    result.innerText = "❌ Error de conexión";
+  }
+}
