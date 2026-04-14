@@ -1,133 +1,102 @@
 <!DOCTYPE html>
-
 <html lang="es">
 <head>
   <meta charset="UTF-8">
   <title>Detector de Imágenes IA</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-  <!-- 🧠 HEADER GLASS -->
-
+  <!-- 🧠 HEADER FIJO -->
   <header class="header">
 
-```
-<img
-  src="https://colegiocentenariomaipu.cl/wp-content/uploads/2020/07/Logoweb.png"
-  class="logo"
-  alt="Logo del colegio"
-/>
+    <img
+      src="https://colegiocentenariomaipu.cl/wp-content/uploads/2020/07/Logoweb.png"
+      class="logo"
+      alt="logo"
+    />
 
-<div class="header-text">
-  <h1>Detector de Imágenes IA</h1>
-  <p>Asignatura: Tecnología</p>
-  <p>Curso: 1° Medio A</p>
-  <p>Alumnas: Victoria Aránguiz - Victoria Prat</p>
-</div>
-```
+    <div class="header-text">
+      <h1>Detector de Imágenes IA</h1>
+      <p>Asignatura: Tecnología</p>
+      <p>Curso: 1° Medio A</p>
+      <p>Alumnas: Victoria Aránguiz - Victoria Prat</p>
+    </div>
 
   </header>
 
-  <!-- 🔥 TODO EL CONTENIDO -->
-
-  <main>
-
-```
 <!-- 🧠 INTRO -->
 <div id="intro" class="intro">
-
-  <div class="intro-box">
-
     <h1>Detector de Imágenes IA</h1>
 
     <p>
-      Este sistema analiza imágenes y estima si fueron generadas por Inteligencia Artificial.
+      <strong>Proyecto Escolar – Tecnología / Computación</strong><br><br>
+
+      Este proyecto consiste en una página web capaz de analizar una imagen y estimar la probabilidad de que haya sido generada mediante Inteligencia Artificial (IA).
+      Para lograrlo, se utiliza un servicio real que analiza imágenes con modelos entrenados.
     </p>
 
     <h3>¿Cómo funciona?</h3>
-
     <ul>
-      <li>Subes una imagen</li>
-      <li>Se analiza con IA</li>
-      <li>Obtienes un porcentaje</li>
+      <li>El usuario sube una imagen desde su computador (JPG, PNG, etc.)</li>
+      <li>La página envía la imagen a un modelo de análisis</li>
+      <li>El sistema devuelve un porcentaje de probabilidad</li>
+      <li>Se muestra el resultado en pantalla</li>
     </ul>
 
-    <button id="startBtn">Comenzar</button>
+    <h3>Tecnologías utilizadas</h3>
+    <ul>
+      <li>HTML5: estructura de la página</li>
+      <li>CSS: diseño visual</li>
+      <li>JavaScript: lógica del sistema</li>
+      <li>API de análisis de imágenes (IA)</li>
+    </ul>
+
+    <h3>Importante</h3>
+    <p>
+      El resultado es una estimación, no una verdad absoluta. Las IA pueden equivocarse dependiendo de la imagen.
+    </p>
+
+    <h3>Créditos</h3>
+    <p>
+      Proyecto realizado por:<br>
+      Victoria Aránguiz - Victoria Prat<br>
+      Asignatura: Tecnología<br>
+      Curso: Primero Medio A
+    </p>
+
+    <button onclick="startApp()">Comenzar</button>
 
   </div>
-
 </div>
 
-<!-- 🚀 APP -->
-<div id="app" class="container hidden">
+  <!-- 🚀 APP -->
+  <div id="app" class="container hidden">
 
-  <div class="top-bar">
-
-    <input
-      type="file"
-      id="imageInput"
-      accept="image/*"
-    />
-
-    <button id="analyzeBtn">
-      Analizar
-    </button>
-
-  </div>
-
-  <div class="grid">
-
-    <!-- 📷 IMAGEN -->
-    <div class="panel left">
-      <h3>Imagen</h3>
-
-      <img
-        id="previewImage"
-        alt="Vista previa de la imagen"
-      />
-
+    <div class="top-bar">
+      <input type="file" id="imageInput" accept="image/*" />
+      <button onclick="uploadImage()">Analizar</button>
     </div>
 
-    <!-- 📊 RESULTADO -->
-    <div class="panel right">
-      <h3>Resultado</h3>
+    <div class="grid">
 
-      <!-- loader -->
-      <div id="loader" class="hidden">
-        🔍 Analizando...
+      <!-- IZQUIERDA: IMAGEN -->
+      <div class="panel left">
+        <h3>Imagen</h3>
+        <img id="previewImage" />
       </div>
 
-      <!-- resultado visual -->
-      <div id="resultBox" class="result-box hidden">
-
-        <div id="resultLabel"></div>
-
-        <div id="resultPercent"></div>
-
-        <div class="progress">
-          <div id="progressBar"></div>
-        </div>
-
+      <!-- DERECHA: RESULTADO -->
+      <div class="panel right">
+        <h3>Resultado</h3>
+        <div id="loader" class="hidden">🔍 Analizando...</div>
+        <p id="result">Selecciona una imagen</p>
       </div>
-
-      <!-- resultado fallback -->
-      <p id="result">Selecciona una imagen</p>
 
     </div>
 
   </div>
-
-</div>
-```
-
-  </main>
-
-  <!-- JS -->
 
   <script src="script.js"></script>
-
 </body>
 </html>
