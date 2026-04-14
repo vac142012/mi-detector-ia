@@ -7,7 +7,7 @@
 </head>
 <body>
 
-  <!-- 🧠 HEADER FIJO -->
+  <!-- 🧠 HEADER GLASS -->
   <header class="header">
 
     <img
@@ -25,50 +25,30 @@
 
   </header>
 
-<!-- 🧠 INTRO -->
-<div id="intro" class="intro">
-    <h1>Detector de Imágenes IA</h1>
+  <!-- 🧠 INTRO -->
+  <div id="intro" class="intro">
 
-    <p>
-      <strong>Proyecto Escolar – Tecnología / Computación</strong><br><br>
+    <div class="intro-box">
 
-      Este proyecto consiste en una página web capaz de analizar una imagen y estimar la probabilidad de que haya sido generada mediante Inteligencia Artificial (IA).
-      Para lograrlo, se utiliza un servicio real que analiza imágenes con modelos entrenados.
-    </p>
+      <h1>Detector de Imágenes IA</h1>
 
-    <h3>¿Cómo funciona?</h3>
-    <ul>
-      <li>El usuario sube una imagen desde su computador (JPG, PNG, etc.)</li>
-      <li>La página envía la imagen a un modelo de análisis</li>
-      <li>El sistema devuelve un porcentaje de probabilidad</li>
-      <li>Se muestra el resultado en pantalla</li>
-    </ul>
+      <p>
+        Este sistema analiza imágenes y estima si fueron generadas por Inteligencia Artificial.
+      </p>
 
-    <h3>Tecnologías utilizadas</h3>
-    <ul>
-      <li>HTML5: estructura de la página</li>
-      <li>CSS: diseño visual</li>
-      <li>JavaScript: lógica del sistema</li>
-      <li>API de análisis de imágenes (IA)</li>
-    </ul>
+      <h3>¿Cómo funciona?</h3>
 
-    <h3>Importante</h3>
-    <p>
-      El resultado es una estimación, no una verdad absoluta. Las IA pueden equivocarse dependiendo de la imagen.
-    </p>
+      <ul>
+        <li>Subes una imagen</li>
+        <li>Se analiza con IA</li>
+        <li>Obtienes un porcentaje</li>
+      </ul>
 
-    <h3>Créditos</h3>
-    <p>
-      Proyecto realizado por:<br>
-      Victoria Aránguiz - Victoria Prat<br>
-      Asignatura: Tecnología<br>
-      Curso: Primero Medio A
-    </p>
+      <button onclick="startApp()">Comenzar</button>
 
-    <button onclick="startApp()">Comenzar</button>
+    </div>
 
   </div>
-</div>
 
   <!-- 🚀 APP -->
   <div id="app" class="container hidden">
@@ -80,15 +60,14 @@
 
     <div class="grid">
 
-      <!-- IZQUIERDA: IMAGEN -->
       <div class="panel left">
         <h3>Imagen</h3>
         <img id="previewImage" />
       </div>
 
-      <!-- DERECHA: RESULTADO -->
       <div class="panel right">
         <h3>Resultado</h3>
+
         <div id="loader" class="hidden">🔍 Analizando...</div>
         <p id="result">Selecciona una imagen</p>
       </div>
