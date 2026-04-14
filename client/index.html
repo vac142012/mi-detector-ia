@@ -1,81 +1,133 @@
 <!DOCTYPE html>
+
 <html lang="es">
 <head>
   <meta charset="UTF-8">
   <title>Detector de Imágenes IA</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
   <!-- 🧠 HEADER GLASS -->
+
   <header class="header">
 
-    <img
-      src="https://colegiocentenariomaipu.cl/wp-content/uploads/2020/07/Logoweb.png"
-      class="logo"
-      alt="logo"
-    />
+```
+<img
+  src="https://colegiocentenariomaipu.cl/wp-content/uploads/2020/07/Logoweb.png"
+  class="logo"
+  alt="Logo del colegio"
+/>
 
-    <div class="header-text">
-      <h1>Detector de Imágenes IA</h1>
-      <p>Asignatura: Tecnología</p>
-      <p>Curso: 1° Medio A</p>
-      <p>Alumnas: Victoria Aránguiz - Victoria Prat</p>
-    </div>
+<div class="header-text">
+  <h1>Detector de Imágenes IA</h1>
+  <p>Asignatura: Tecnología</p>
+  <p>Curso: 1° Medio A</p>
+  <p>Alumnas: Victoria Aránguiz - Victoria Prat</p>
+</div>
+```
 
   </header>
 
-  <!-- 🧠 INTRO -->
-  <div id="intro" class="intro">
+  <!-- 🔥 TODO EL CONTENIDO -->
 
-    <div class="intro-box">
+  <main>
 
-      <h1>Detector de Imágenes IA</h1>
+```
+<!-- 🧠 INTRO -->
+<div id="intro" class="intro">
 
-      <p>
-        Este sistema analiza imágenes y estima si fueron generadas por Inteligencia Artificial.
-      </p>
+  <div class="intro-box">
 
-      <h3>¿Cómo funciona?</h3>
+    <h1>Detector de Imágenes IA</h1>
 
-      <ul>
-        <li>Subes una imagen</li>
-        <li>Se analiza con IA</li>
-        <li>Obtienes un porcentaje</li>
-      </ul>
+    <p>
+      Este sistema analiza imágenes y estima si fueron generadas por Inteligencia Artificial.
+    </p>
 
-      <button onclick="startApp()">Comenzar</button>
+    <h3>¿Cómo funciona?</h3>
+
+    <ul>
+      <li>Subes una imagen</li>
+      <li>Se analiza con IA</li>
+      <li>Obtienes un porcentaje</li>
+    </ul>
+
+    <button id="startBtn">Comenzar</button>
+
+  </div>
+
+</div>
+
+<!-- 🚀 APP -->
+<div id="app" class="container hidden">
+
+  <div class="top-bar">
+
+    <input
+      type="file"
+      id="imageInput"
+      accept="image/*"
+    />
+
+    <button id="analyzeBtn">
+      Analizar
+    </button>
+
+  </div>
+
+  <div class="grid">
+
+    <!-- 📷 IMAGEN -->
+    <div class="panel left">
+      <h3>Imagen</h3>
+
+      <img
+        id="previewImage"
+        alt="Vista previa de la imagen"
+      />
+
+    </div>
+
+    <!-- 📊 RESULTADO -->
+    <div class="panel right">
+      <h3>Resultado</h3>
+
+      <!-- loader -->
+      <div id="loader" class="hidden">
+        🔍 Analizando...
+      </div>
+
+      <!-- resultado visual -->
+      <div id="resultBox" class="result-box hidden">
+
+        <div id="resultLabel"></div>
+
+        <div id="resultPercent"></div>
+
+        <div class="progress">
+          <div id="progressBar"></div>
+        </div>
+
+      </div>
+
+      <!-- resultado fallback -->
+      <p id="result">Selecciona una imagen</p>
 
     </div>
 
   </div>
 
-  <!-- 🚀 APP -->
-  <div id="app" class="container hidden">
+</div>
+```
 
-    <div class="top-bar">
-      <input type="file" id="imageInput" accept="image/*" />
-      <button onclick="uploadImage()">Analizar</button>
-    </div>
+  </main>
 
-    <div class="grid">
-
-      <div class="panel left">
-        <h3>Imagen</h3>
-        <img id="previewImage" />
-      </div>
-
-      <div class="panel right">
-        <h3>Resultado</h3>
-
-        <div id="loader" class="hidden">🔍 Analizando...</div>
-        <p id="result">Selecciona una imagen</p>
-      </div>
-
-    </div>
-
-  </div>
+  <!-- JS -->
 
   <script src="script.js"></script>
+
 </body>
 </html>
