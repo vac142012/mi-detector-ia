@@ -1,137 +1,144 @@
+
+/* =========================
+   BASE
+========================= */
 body {
-margin: 0;
-font-family: Arial, sans-serif;
-background: #f5f7fa;
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #ffffff;
+  color: #111;
 }
 
-/* HEADER */
+/* =========================
+   HEADER GLASS
+========================= */
 .header {
-position: fixed;
-top: 0;
-width: 100%;
-display: flex;
-align-items: center;
-gap: 15px;
-padding: 10px 20px;
-background: rgba(255,255,255,0.8);
-backdrop-filter: blur(10px);
-border-bottom: 1px solid #ddd;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 10px 20px;
+  background: rgba(255,255,255,0.8);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid #ddd;
+  z-index: 1000;
 }
 
 .logo {
-width: 50px;
+  width: 55px;
+  height: 55px;
 }
 
 .header-text h1 {
-margin: 0;
-font-size: 16px;
+  margin: 0;
+  font-size: 16px;
 }
 
 .header-text p {
-margin: 2px 0;
-font-size: 12px;
+  margin: 2px 0;
+  font-size: 12px;
 }
 
-/* MAIN */
-main {
-padding-top: 90px;
-}
-
-/* INTRO */
+/* =========================
+   INTRO FULL SCREEN
+========================= */
 .intro {
-min-height: calc(100vh - 90px);
-display: flex;
-justify-content: center;
-align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
 }
 
 .intro-box {
-text-align: center;
+  text-align: center;
+  max-width: 500px;
+  padding: 20px;
 }
 
+.intro-box p {
+  font-size: 14px;
+  color: #444;
+}
+
+.intro-box ul {
+  text-align: left;
+  font-size: 13px;
+  color: #555;
+}
+
+/* botón pro */
 .intro-box button {
-margin-top: 20px;
-padding: 10px 20px;
-background: #111;
-color: white;
-border: none;
-border-radius: 8px;
-cursor: pointer;
+  margin-top: 20px;
+  padding: 12px 25px;
+  font-size: 15px;
+  border: none;
+  border-radius: 10px;
+  background: #111;
+  color: white;
+  cursor: pointer;
+  transition: 0.2s;
 }
 
-/* APP */
+.intro-box button:hover {
+  background: #333;
+  transform: scale(1.05);
+}
+
+/* =========================
+   APP
+========================= */
 .container {
-padding: 20px;
+  padding: 100px 20px 20px; /* espacio por header */
 }
 
 .hidden {
-display: none;
+  display: none;
 }
 
-/* TOP */
+/* =========================
+   TOP BAR
+========================= */
 .top-bar {
-display: flex;
-gap: 10px;
-margin-bottom: 20px;
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
 }
 
-.top-bar button {
-background: #2563eb;
-color: white;
-border: none;
-padding: 10px;
-border-radius: 8px;
-}
-
-/* GRID */
+/* =========================
+   GRID PRO
+========================= */
 .grid {
-display: grid;
-grid-template-columns: 1fr 1fr;
-gap: 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
 }
 
+/* panel */
 .panel {
-background: white;
-padding: 15px;
-border-radius: 10px;
-min-height: 250px;
+  border: 1px solid #ddd;
+  padding: 15px;
+  border-radius: 12px;
+  background: #fafafa;
+  min-height: 300px;
 }
 
-/* IMG */
+/* imagen */
 .panel img {
-max-width: 200px;
-display: none;
+  max-width: 220px;
+  width: 100%;
+  border-radius: 10px;
+  display: none;
 }
 
-/* RESULT */
-.result-box {
-text-align: center;
-}
-
-#resultPercent {
-font-size: 30px;
-font-weight: bold;
-}
-
-/* BAR */
-.progress {
-width: 100%;
-height: 10px;
-background: #eee;
-border-radius: 10px;
-overflow: hidden;
-}
-
-#progressBar {
-height: 100%;
-width: 0%;
-background: #2563eb;
-transition: 0.5s;
-}
-
-/* MOBILE */
-@media (max-width: 768px) {
-.grid {
-grid-template-columns: 1fr;
-}
+/* loader */
+#loader {
+  font-weight: bold;
 }
