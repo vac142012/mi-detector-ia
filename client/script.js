@@ -6,24 +6,30 @@ const loader = document.getElementById("loader");
 
 const API_URL = "https://mi-detector-ia-backend.onrender.com";
 
+// ocultar preview al inicio
+preview.style.display = "none";
+
 // intro
 function startApp() {
   document.getElementById("intro").style.display = "none";
   document.getElementById("app").classList.remove("hidden");
 }
 
-// preview imagen
+// 🖼️ mostrar imagen
 input.addEventListener("change", () => {
   const file = input.files[0];
 
   if (file) {
-    preview.src = URL.createObjectURL(file);
+    const url = URL.createObjectURL(file);
+
+    preview.src = url;
     preview.style.display = "block";
+
     result.innerText = "";
   }
 });
 
-// analizar imagen
+// 🔍 analizar imagen
 async function uploadImage() {
   if (!input.files.length) {
     result.innerText = "⚠️ Selecciona una imagen";
@@ -44,12 +50,13 @@ async function uploadImage() {
     if (!response.ok) {
       const errorText = await response.text();
       console.error(errorText);
-      result.innerText = "❌ Error en el servidor";
       loader.classList.add("hidden");
+      result.innerText = "❌ Error en el servidor";
       return;
     }
 
     const data = await response.json();
+
     loader.classList.add("hidden");
 
     const score = data?.type?.ai_generated;
