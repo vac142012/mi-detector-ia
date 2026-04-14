@@ -1,40 +1,41 @@
-// elementos globales
+// elementos
 const input = document.getElementById("imageInput");
 const preview = document.getElementById("previewImage");
+const result = document.getElementById("result");
+const loader = document.getElementById("loader");
 
-// 🧠 intro
+const API_URL = "https://mi-detector-ia-backend.onrender.com";
+
+// intro
 function startApp() {
   document.getElementById("intro").style.display = "none";
   document.getElementById("app").classList.remove("hidden");
 }
 
-// 🖼️ preview imagen
+// preview imagen
 input.addEventListener("change", () => {
   const file = input.files[0];
 
   if (file) {
     preview.src = URL.createObjectURL(file);
     preview.style.display = "block";
+    result.innerText = "";
   }
 });
 
-// 🔍 analizar imagen
+// analizar imagen
 async function uploadImage() {
-  const result = document.getElementById("result");
-
   if (!input.files.length) {
-    result.innerText = "⚠️ Selecciona una imagen primero";
+    result.innerText = "⚠️ Selecciona una imagen";
     return;
   }
 
   const formData = new FormData();
   formData.append("image", input.files[0]);
 
-  const API_URL = "https://mi-detector-ia-backend.onrender.com";
+  loader.classList.remove("hidden");
 
   try {
-    result.innerText = "🔍 Analizando imagen...";
-
     const response = await fetch(`${API_URL}/analyze`, {
       method: "POST",
       body: formData
@@ -42,31 +43,35 @@ async function uploadImage() {
 
     if (!response.ok) {
       const errorText = await response.text();
-      console.error("Error backend:", errorText);
+      console.error(errorText);
       result.innerText = "❌ Error en el servidor";
+      loader.classList.add("hidden");
       return;
     }
 
     const data = await response.json();
-    console.log("Respuesta API:", data);
+    loader.classList.add("hidden");
 
     const score = data?.type?.ai_generated;
 
     if (score === undefined) {
-      result.innerText = "⚠️ No se pudo analizar la imagen";
+      result.innerText = "⚠️ No se pudo analizar";
       return;
     }
 
     const percentage = (score * 100).toFixed(2);
 
     if (score > 0.5) {
-      result.innerText = `⚠️ Imagen probablemente generada por IA (${percentage}%)`;
+      result.innerText = `⚠️ IA detectada (${percentage}%)`;
+      result.style.color = "#f87171";
     } else {
-      result.innerText = `✅ Imagen probablemente real (${(100 - percentage).toFixed(2)}% confianza)`;
+      result.innerText = `✅ Imagen real (${(100 - percentage).toFixed(2)}%)`;
+      result.style.color = "#4ade80";
     }
 
   } catch (error) {
-    console.error("Error conexión:", error);
-    result.innerText = "❌ Error de conexión con el servidor";
+    console.error(error);
+    loader.classList.add("hidden");
+    result.innerText = "❌ Error de conexión";
   }
 }
