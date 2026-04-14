@@ -7,19 +7,20 @@
 </head>
 <body>
 
-  <!-- 🧠 HEADER -->
-  <header class="header">
-    <img src="https://colegiocentenariomaipu.cl/wp-content/uploads/2020/07/Logoweb.png" />
-    <div class="header-text">
-      <h2>Primero Medio A</h2>
-      <p>Victoria Aranguiz - Victoria Prat</p>
-    </div>
-  </header>
-
   <!-- 🧠 INTRO -->
   <div id="intro" class="intro">
     <div class="intro-content">
+
+      <img
+        class="intro-logo"
+        src="https://colegiocentenariomaipu.cl/wp-content/uploads/2020/07/Logoweb.png"
+        alt="logo colegio"
+      />
+
       <h1>Detector de Imágenes IA</h1>
+
+      <p><strong>Asignatura:</strong> Tecnología</p>
+      <p><strong>Curso:</strong> Primero Medio A</p>
 
       <p>
         Proyecto escolar que analiza imágenes y estima si fueron generadas por Inteligencia Artificial.
@@ -32,27 +33,27 @@
   <!-- 🚀 APP -->
   <div id="app" class="container hidden">
 
-    <!-- input -->
+    <!-- top bar -->
     <div class="top-bar">
       <input type="file" id="imageInput" accept="image/*" />
       <button onclick="uploadImage()">Analizar</button>
     </div>
 
-    <!-- layout 2 columnas -->
+    <!-- GRID -->
     <div class="grid">
 
-      <!-- izquierda: resultado -->
+      <!-- IZQUIERDA: IMAGEN -->
       <div class="panel left">
+        <h3>Imagen</h3>
+        <img id="previewImage" />
+      </div>
+
+      <!-- DERECHA: RESULTADO -->
+      <div class="panel right">
         <h3>Resultado</h3>
 
         <div id="loader" class="hidden">🔍 Analizando...</div>
         <p id="result">Selecciona una imagen</p>
-      </div>
-
-      <!-- derecha: imagen -->
-      <div class="panel right">
-        <h3>Imagen</h3>
-        <img id="previewImage" />
       </div>
 
     </div>
