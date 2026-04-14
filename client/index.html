@@ -7,13 +7,13 @@
 </head>
 <body>
 
-  <!-- 🧠 HEADER (SIEMPRE VISIBLE) -->
+  <!-- 🧠 HEADER GLASS -->
   <header class="header">
 
     <img
       src="https://colegiocentenariomaipu.cl/wp-content/uploads/2020/07/Logoweb.png"
       class="logo"
-      alt="logo colegio"
+      alt="logo"
     />
 
     <div class="header-text">
@@ -27,29 +27,27 @@
 
   <!-- 🧠 INTRO -->
   <div id="intro" class="intro">
-    <div class="intro-content">
 
-      <p class="intro-text">
-        Este proyecto consiste en una página web capaz de analizar imágenes y estimar si fueron generadas por Inteligencia Artificial.
-        Utiliza un modelo de análisis que entrega un porcentaje de probabilidad.
+    <div class="intro-box">
+
+      <h1>Detector de Imágenes IA</h1>
+
+      <p>
+        Este sistema analiza imágenes y estima si fueron generadas por Inteligencia Artificial.
       </p>
 
       <h3>¿Cómo funciona?</h3>
-      <ul class="intro-list">
-        <li>Subes una imagen desde tu computador</li>
-        <li>La imagen se envía al sistema de análisis</li>
-        <li>Se obtiene un porcentaje de IA</li>
-        <li>Se muestra el resultado en pantalla</li>
-      </ul>
 
-      <h3>Importante</h3>
-      <p class="intro-text">
-        El resultado es una estimación, no una verdad absoluta.
-      </p>
+      <ul>
+        <li>Subes una imagen</li>
+        <li>Se analiza con IA</li>
+        <li>Obtienes un porcentaje</li>
+      </ul>
 
       <button onclick="startApp()">Comenzar</button>
 
     </div>
+
   </div>
 
   <!-- 🚀 APP -->
@@ -62,13 +60,11 @@
 
     <div class="grid">
 
-      <!-- IZQUIERDA: IMAGEN -->
       <div class="panel left">
         <h3>Imagen</h3>
         <img id="previewImage" />
       </div>
 
-      <!-- DERECHA: RESULTADO -->
       <div class="panel right">
         <h3>Resultado</h3>
 
