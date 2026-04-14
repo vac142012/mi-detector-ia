@@ -1,6 +1,6 @@
 
 /* =========================
-   GENERAL
+   BASE
 ========================= */
 body {
   margin: 0;
@@ -10,103 +10,102 @@ body {
 }
 
 /* =========================
-   HEADER
+   HEADER GLASS
 ========================= */
 .header {
+  position: fixed;
+  top: 0;
+  width: 100%;
   display: flex;
   align-items: center;
   gap: 15px;
   padding: 10px 20px;
+  background: rgba(255,255,255,0.8);
+  backdrop-filter: blur(10px);
   border-bottom: 1px solid #ddd;
-  position: sticky;
-  top: 0;
-  background: white;
-  z-index: 100;
+  z-index: 1000;
 }
 
 .logo {
-  width: 60px;
-  height: 60px;
+  width: 55px;
+  height: 55px;
 }
 
 .header-text h1 {
   margin: 0;
-  font-size: 18px;
+  font-size: 16px;
 }
 
 .header-text p {
   margin: 2px 0;
-  font-size: 13px;
+  font-size: 12px;
 }
 
 /* =========================
-   INTRO
+   INTRO FULL SCREEN
 ========================= */
 .intro {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
+  height: 100vh;
   background: white;
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 200;
+  z-index: 2000;
 }
 
-.intro-content {
-  max-width: 600px;
+.intro-box {
   text-align: center;
+  max-width: 500px;
   padding: 20px;
 }
 
-/* texto intro */
-.intro-text {
-  font-size: 13px;
-  line-height: 1.5;
-  margin-bottom: 10px;
-  color: #333;
-}
-
-/* lista intro */
-.intro-list {
-  text-align: left;
-  font-size: 13px;
-  max-width: 400px;
-  margin: 10px auto;
+.intro-box p {
+  font-size: 14px;
   color: #444;
 }
 
-/* botón visible */
-.intro button {
-  margin-top: 20px;
-  padding: 10px 20px;
-  font-size: 16px;
-  background: #111;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
+.intro-box ul {
+  text-align: left;
+  font-size: 13px;
+  color: #555;
 }
 
-.intro button:hover {
+/* botón pro */
+.intro-box button {
+  margin-top: 20px;
+  padding: 12px 25px;
+  font-size: 15px;
+  border: none;
+  border-radius: 10px;
+  background: #111;
+  color: white;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.intro-box button:hover {
   background: #333;
+  transform: scale(1.05);
 }
 
 /* =========================
    APP
 ========================= */
 .container {
-  padding: 20px;
+  padding: 100px 20px 20px; /* espacio por header */
 }
 
-/* ocultar */
 .hidden {
   display: none;
 }
 
-/* top bar */
+/* =========================
+   TOP BAR
+========================= */
 .top-bar {
   display: flex;
   gap: 10px;
@@ -114,7 +113,7 @@ body {
 }
 
 /* =========================
-   GRID
+   GRID PRO
 ========================= */
 .grid {
   display: grid;
@@ -126,16 +125,15 @@ body {
 .panel {
   border: 1px solid #ddd;
   padding: 15px;
-  border-radius: 10px;
-  min-height: 300px;
+  border-radius: 12px;
   background: #fafafa;
+  min-height: 300px;
 }
 
-/* imagen preview */
+/* imagen */
 .panel img {
-  max-width: 250px;
+  max-width: 220px;
   width: 100%;
-  height: auto;
   border-radius: 10px;
   display: none;
 }
@@ -143,5 +141,4 @@ body {
 /* loader */
 #loader {
   font-weight: bold;
-  margin-bottom: 10px;
 }
