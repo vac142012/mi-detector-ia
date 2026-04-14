@@ -1,3 +1,7 @@
+function startApp() {
+  document.getElementById("intro").style.display = "none";
+  document.getElementById("app").classList.remove("hidden");
+}
 async function uploadImage() {
   const input = document.getElementById("imageInput");
   const result = document.getElementById("result");
