@@ -2,33 +2,28 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Detector de Imágenes AI</title>
+  <title>Detector de Imágenes IA</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+  <!-- 🧠 HEADER -->
+  <header class="header">
+    <img src="https://colegiocentenariomaipu.cl/wp-content/uploads/2020/07/Logoweb.png" />
+    <div class="header-text">
+      <h2>Primero Medio A</h2>
+      <p>Victoria Aranguiz - Victoria Prat</p>
+    </div>
+  </header>
+
   <!-- 🧠 INTRO -->
   <div id="intro" class="intro">
     <div class="intro-content">
-      <h1>🧠 Detector de Imágenes IA</h1>
+      <h1>Detector de Imágenes IA</h1>
 
       <p>
-        <strong>Proyecto Escolar – Tecnología / Computación</strong><br><br>
-
-        Esta página analiza imágenes y estima si fueron generadas por Inteligencia Artificial.
-        Usa un modelo real para calcular la probabilidad de imagen sintética.
+        Proyecto escolar que analiza imágenes y estima si fueron generadas por Inteligencia Artificial.
       </p>
-
-      <h3>¿Cómo funciona?</h3>
-      <ul>
-        <li>Subes una imagen desde tu computador</li>
-        <li>Se envía a un modelo de análisis</li>
-        <li>Se obtiene un porcentaje de probabilidad</li>
-        <li>Se muestra el resultado</li>
-      </ul>
-
-      <h3>Importante</h3>
-      <p>El resultado es una estimación, no una verdad absoluta.</p>
 
       <button onclick="startApp()">Comenzar</button>
     </div>
@@ -37,23 +32,33 @@
   <!-- 🚀 APP -->
   <div id="app" class="container hidden">
 
-    <h1>🧠 Detector de Imágenes IA</h1>
-
-    <input type="file" id="imageInput" accept="image/*" />
-    <button onclick="uploadImage()">Analizar imagen</button>
-
-    <div class="preview">
-      <img id="previewImage" alt="preview" />
+    <!-- input -->
+    <div class="top-bar">
+      <input type="file" id="imageInput" accept="image/*" />
+      <button onclick="uploadImage()">Analizar</button>
     </div>
 
-    <div id="loader" class="hidden">🔍 Analizando...</div>
+    <!-- layout 2 columnas -->
+    <div class="grid">
 
-    <p id="result"></p>
+      <!-- izquierda: resultado -->
+      <div class="panel left">
+        <h3>Resultado</h3>
+
+        <div id="loader" class="hidden">🔍 Analizando...</div>
+        <p id="result">Selecciona una imagen</p>
+      </div>
+
+      <!-- derecha: imagen -->
+      <div class="panel right">
+        <h3>Imagen</h3>
+        <img id="previewImage" />
+      </div>
+
+    </div>
 
   </div>
 
-  <!-- 🔥 IMPORTANTE -->
   <script src="script.js"></script>
-
 </body>
 </html>
