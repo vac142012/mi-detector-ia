@@ -1,9 +1,25 @@
+// elementos globales
+const input = document.getElementById("imageInput");
+const preview = document.getElementById("previewImage");
+
+// 🧠 intro
 function startApp() {
   document.getElementById("intro").style.display = "none";
   document.getElementById("app").classList.remove("hidden");
 }
+
+// 🖼️ preview imagen
+input.addEventListener("change", () => {
+  const file = input.files[0];
+
+  if (file) {
+    preview.src = URL.createObjectURL(file);
+    preview.style.display = "block";
+  }
+});
+
+// 🔍 analizar imagen
 async function uploadImage() {
-  const input = document.getElementById("imageInput");
   const result = document.getElementById("result");
 
   if (!input.files.length) {
@@ -11,13 +27,10 @@ async function uploadImage() {
     return;
   }
 
-  const file = input.files[0];
-
-  // 🔗 Backend en Render
-  const API_URL = "https://mi-detector-ia-backend.onrender.com";
-
   const formData = new FormData();
-  formData.append("image", file);
+  formData.append("image", input.files[0]);
+
+  const API_URL = "https://mi-detector-ia-backend.onrender.com";
 
   try {
     result.innerText = "🔍 Analizando imagen...";
@@ -37,7 +50,6 @@ async function uploadImage() {
     const data = await response.json();
     console.log("Respuesta API:", data);
 
-    // 🧠 Leer resultado de Sightengine
     const score = data?.type?.ai_generated;
 
     if (score === undefined) {
