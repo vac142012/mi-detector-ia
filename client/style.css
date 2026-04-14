@@ -14,3 +14,40 @@ button {
   margin-top: 10px;
   cursor: pointer;
 }
+/* INTRO SCREEN */
+.intro {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #020617;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.intro-content {
+  background: #0f172a;
+  padding: 30px;
+  border-radius: 10px;
+  width: 500px;
+  max-height: 80vh;
+  overflow-y: auto;
+  text-align: left;
+}
+
+.intro-content h1 {
+  text-align: center;
+}
+
+.intro-content button {
+  width: 100%;
+  margin-top: 20px;
+}
+
+/* ocultar */
+.hidden {
+  display: none;
+}
