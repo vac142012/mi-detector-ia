@@ -74,7 +74,7 @@ body {
   color: #555;
 }
 
-/* botón pro */
+/* botón intro */
 .intro-box button {
   margin-top: 20px;
   padding: 12px 25px;
@@ -96,7 +96,7 @@ body {
    APP
 ========================= */
 .container {
-  padding: 100px 20px 20px;
+  padding: 120px 20px 20px;
 }
 
 .hidden {
@@ -110,6 +110,25 @@ body {
   display: flex;
   gap: 10px;
   margin-bottom: 20px;
+}
+
+/* input file mejorado */
+input[type="file"] {
+  font-size: 15px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background: #fff;
+}
+
+/* botón analizar */
+button {
+  padding: 10px 15px;
+  border-radius: 10px;
+  border: none;
+  background: #111;
+  color: white;
+  cursor: pointer;
 }
 
 /* =========================
@@ -170,9 +189,9 @@ body {
     font-size: 13px;
   }
 
-  /* container */
+  /* MÁS espacio por header */
   .container {
-    padding: 90px 10px 20px;
+    padding: 140px 10px 20px;
   }
 
   /* intro */
@@ -188,23 +207,26 @@ body {
     font-size: 15px;
   }
 
-  /* 🔘 BOTONES GRANDES */
+  /* botones grandes */
   button {
     font-size: 16px;
     padding: 14px;
     width: 100%;
   }
 
-  /* top bar */
+  /* input file grande */
+  input[type="file"] {
+    font-size: 16px;
+    padding: 14px;
+    width: 100%;
+  }
+
+  /* top bar vertical */
   .top-bar {
     flex-direction: column;
   }
 
-  .top-bar input {
-    width: 100%;
-  }
-
-  /* 🔥 UNA COLUMNA */
+  /* una columna */
   .grid {
     grid-template-columns: 1fr;
   }
