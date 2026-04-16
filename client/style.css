@@ -74,7 +74,6 @@ body {
   color: #555;
 }
 
-/* botón intro */
 .intro-box button {
   margin-top: 20px;
   padding: 12px 25px;
@@ -112,7 +111,6 @@ body {
   margin-bottom: 20px;
 }
 
-/* input file mejorado */
 input[type="file"] {
   font-size: 15px;
   padding: 10px;
@@ -121,7 +119,6 @@ input[type="file"] {
   background: #fff;
 }
 
-/* botón analizar */
 button {
   padding: 10px 15px;
   border-radius: 10px;
@@ -132,7 +129,7 @@ button {
 }
 
 /* =========================
-   GRID PRO
+   GRID
 ========================= */
 .grid {
   display: grid;
@@ -140,7 +137,6 @@ button {
   gap: 20px;
 }
 
-/* panel */
 .panel {
   border: 1px solid #ddd;
   padding: 15px;
@@ -149,7 +145,6 @@ button {
   min-height: 300px;
 }
 
-/* imagen */
 .panel img {
   max-width: 220px;
   width: 100%;
@@ -157,13 +152,91 @@ button {
   display: none;
 }
 
-/* loader */
-#loader {
+/* =========================
+   DONUT INSTITUCIONAL
+========================= */
+
+.result-box {
+  margin-top: 15px;
+  padding: 20px;
+  border-radius: 12px;
+  background: #ffffff;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+.donut-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.donut {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  position: relative;
+  background: conic-gradient(#e5e7eb 0deg, #e5e7eb 360deg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.donut-fill {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: conic-gradient(#1e3a8a 0deg, #e5e7eb 0deg);
+  transition: background 0.6s ease;
+}
+
+.donut-center {
+  width: 90px;
+  height: 90px;
+  background: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  font-weight: bold;
+  position: relative;
+  z-index: 2;
+}
+
+.result-label {
+  text-align: center;
+  margin-top: 15px;
+  font-size: 18px;
   font-weight: bold;
 }
 
 /* =========================
-   📱 MOBILE PRO
+   LOADER
+========================= */
+.result-loader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.spinner {
+  width: 18px;
+  height: 18px;
+  border: 3px solid #ccc;
+  border-top-color: #1e3a8a;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* =========================
+   MOBILE
 ========================= */
 @media (max-width: 768px) {
 
@@ -171,7 +244,6 @@ button {
     font-size: 17px;
   }
 
-  /* header */
   .header {
     padding: 10px;
   }
@@ -189,12 +261,10 @@ button {
     font-size: 13px;
   }
 
-  /* MÁS espacio por header */
   .container {
     padding: 140px 10px 20px;
   }
 
-  /* intro */
   .intro-box h1 {
     font-size: 22px;
   }
@@ -207,40 +277,33 @@ button {
     font-size: 15px;
   }
 
-  /* botones grandes */
   button {
     font-size: 16px;
     padding: 14px;
     width: 100%;
   }
 
-  /* input file grande */
   input[type="file"] {
     font-size: 16px;
     padding: 14px;
     width: 100%;
   }
 
-  /* top bar vertical */
   .top-bar {
     flex-direction: column;
   }
 
-  /* una columna */
   .grid {
     grid-template-columns: 1fr;
   }
 
-  /* panel */
   .panel {
     padding: 20px;
     min-height: auto;
   }
 
-  /* imagen */
   .panel img {
     max-width: 100%;
     height: auto;
   }
-
 }
