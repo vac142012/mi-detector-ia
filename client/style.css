@@ -23,6 +23,16 @@ body {
   width: 50px;
 }
 
+.header-text h1 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.header-text p {
+  margin: 2px 0;
+  font-size: 12px;
+}
+
 /* INTRO */
 .intro {
   position: fixed;
@@ -33,15 +43,18 @@ body {
   align-items: center;
 }
 
+.intro-box {
+  text-align: center;
+}
+
 /* APP */
 .container {
   margin-top: 100px;
   padding: 20px;
 }
 
-/* 🔥 FIX IMPORTANTE */
 .hidden {
-  display: none !important;
+  display: none;
 }
 
 /* TOP BAR */
@@ -87,6 +100,12 @@ body {
   object-fit: contain;
   border-radius: 10px;
   display: none;
+}
+
+/* RESULT */
+.result-box {
+  margin-top: 20px;
+  text-align: center;
 }
 
 /* DONUT */
