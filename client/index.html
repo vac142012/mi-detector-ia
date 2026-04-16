@@ -4,11 +4,11 @@
   <meta charset="UTF-8">
   <title>Detector de Imágenes IA</title>
   <link rel="stylesheet" href="style.css">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
 
-  <!-- 🧠 HEADER GLASS -->
+  <!-- HEADER -->
   <header class="header">
 
     <img
@@ -26,7 +26,7 @@
 
   </header>
 
-  <!-- 🧠 INTRO -->
+  <!-- INTRO -->
   <div id="intro" class="intro">
 
     <div class="intro-box">
@@ -51,7 +51,7 @@
 
   </div>
 
-  <!-- 🚀 APP -->
+  <!-- APP -->
   <div id="app" class="container hidden">
 
     <div class="top-bar">
@@ -61,16 +61,37 @@
 
     <div class="grid">
 
+      <!-- PANEL IZQUIERDO -->
       <div class="panel left">
         <h3>Imagen</h3>
         <img id="previewImage" />
       </div>
 
+      <!-- PANEL DERECHO -->
       <div class="panel right">
         <h3>Resultado</h3>
 
+        <!-- LOADER ORIGINAL (NO TOCADO) -->
         <div id="loader" class="hidden">🔍 Analizando...</div>
+
+        <!-- RESULTADO ORIGINAL (SE MANTIENE) -->
         <p id="result">Selecciona una imagen</p>
+
+        <!-- DONUT AGREGADO (NO ROMPE NADA) -->
+        <div id="resultBox" class="result-box hidden">
+
+          <div class="donut-container">
+            <div class="donut">
+              <div id="donutFill" class="donut-fill"></div>
+              <div class="donut-center">
+                <span id="donutPercent">0%</span>
+              </div>
+            </div>
+          </div>
+
+          <p id="resultLabel" class="result-label"></p>
+        </div>
+
       </div>
 
     </div>
