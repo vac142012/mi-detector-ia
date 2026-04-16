@@ -1,34 +1,26 @@
-/* =========================
-   BASE
-========================= */
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background: #ffffff;
+  background: #f5f5f5;
   color: #111;
-  font-size: 16px;
 }
 
-/* =========================
-   HEADER GLASS
-========================= */
+/* HEADER */
 .header {
   position: fixed;
   top: 0;
   width: 100%;
   display: flex;
-  align-items: center;
   gap: 15px;
   padding: 10px 20px;
-  background: rgba(255,255,255,0.8);
-  backdrop-filter: blur(10px);
+  background: rgba(255,255,255,0.9);
+  backdrop-filter: blur(8px);
   border-bottom: 1px solid #ddd;
   z-index: 1000;
 }
 
 .logo {
-  width: 55px;
-  height: 55px;
+  width: 50px;
 }
 
 .header-text h1 {
@@ -41,96 +33,53 @@ body {
   font-size: 12px;
 }
 
-/* =========================
-   INTRO FULL SCREEN
-========================= */
+/* INTRO */
 .intro {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh;
+  inset: 0;
   background: white;
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 2000;
 }
 
 .intro-box {
   text-align: center;
-  max-width: 500px;
-  padding: 20px;
 }
 
-.intro-box p {
-  font-size: 14px;
-  color: #444;
-}
-
-.intro-box ul {
-  text-align: left;
-  font-size: 13px;
-  color: #555;
-}
-
-.intro-box button {
-  margin-top: 20px;
-  padding: 12px 25px;
-  font-size: 15px;
-  border: none;
-  border-radius: 10px;
-  background: #111;
-  color: white;
-  cursor: pointer;
-  transition: 0.2s;
-}
-
-.intro-box button:hover {
-  background: #333;
-  transform: scale(1.05);
-}
-
-/* =========================
-   APP
-========================= */
+/* APP */
 .container {
-  padding: 120px 20px 20px;
+  margin-top: 100px;
+  padding: 20px;
 }
 
 .hidden {
   display: none;
 }
 
-/* =========================
-   TOP BAR
-========================= */
+/* TOP BAR */
 .top-bar {
   display: flex;
   gap: 10px;
   margin-bottom: 20px;
 }
 
-input[type="file"] {
-  font-size: 15px;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  background: #fff;
-}
-
-button {
-  padding: 10px 15px;
-  border-radius: 10px;
-  border: none;
+.file-button, button {
   background: #111;
   color: white;
+  padding: 10px 15px;
+  border-radius: 10px;
   cursor: pointer;
+  border: none;
+  transition: 0.2s;
 }
 
-/* =========================
-   GRID
-========================= */
+.file-button:hover, button:hover {
+  background: #333;
+  transform: translateY(-1px);
+}
+
+/* GRID */
 .grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -138,95 +87,67 @@ button {
 }
 
 .panel {
-  border: 1px solid #ddd;
-  padding: 15px;
+  background: white;
+  padding: 20px;
   border-radius: 12px;
-  background: #fafafa;
-  min-height: 300px;
+  border: 1px solid #ddd;
 }
 
-.panel img {
-  max-width: 220px;
+/* IMAGE */
+#previewImage {
   width: 100%;
+  max-height: 300px;
+  object-fit: contain;
   border-radius: 10px;
   display: none;
 }
 
-/* =========================
-   DONUT INSTITUCIONAL
-========================= */
-
+/* RESULT */
 .result-box {
-  margin-top: 15px;
-  padding: 20px;
-  border-radius: 12px;
-  background: #ffffff;
-  border: 1px solid #ddd;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  margin-top: 20px;
+  text-align: center;
 }
 
-.donut-container {
-  display: flex;
-  justify-content: center;
-  margin-top: 10px;
-}
-
+/* DONUT */
 .donut {
   width: 150px;
   height: 150px;
+  margin: auto;
   border-radius: 50%;
   position: relative;
   background: conic-gradient(#e5e7eb 0deg, #e5e7eb 360deg);
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .donut-fill {
   position: absolute;
   inset: 0;
   border-radius: 50%;
-  background: conic-gradient(#1e3a8a 0deg, #e5e7eb 0deg);
-  transition: background 0.6s ease;
+  transition: all 0.6s ease;
 }
 
 .donut-center {
-  width: 90px;
-  height: 90px;
+  position: absolute;
+  inset: 25%;
   background: white;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 22px;
-  font-weight: bold;
-  position: relative;
-  z-index: 2;
-}
-
-.result-label {
-  text-align: center;
-  margin-top: 15px;
-  font-size: 18px;
   font-weight: bold;
 }
 
-/* =========================
-   LOADER
-========================= */
+/* LOADER */
 .result-loader {
   display: flex;
-  align-items: center;
   gap: 10px;
-  font-weight: bold;
-  margin-top: 10px;
+  align-items: center;
 }
 
 .spinner {
-  width: 18px;
-  height: 18px;
+  width: 16px;
+  height: 16px;
   border: 3px solid #ccc;
-  border-top-color: #1e3a8a;
+  border-top: 3px solid #111;
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
 }
@@ -235,75 +156,13 @@ button {
   to { transform: rotate(360deg); }
 }
 
-/* =========================
-   MOBILE
-========================= */
+/* MOBILE */
 @media (max-width: 768px) {
-
-  body {
-    font-size: 17px;
-  }
-
-  .header {
-    padding: 10px;
-  }
-
-  .logo {
-    width: 40px;
-    height: 40px;
-  }
-
-  .header-text h1 {
-    font-size: 18px;
-  }
-
-  .header-text p {
-    font-size: 13px;
-  }
-
-  .container {
-    padding: 140px 10px 20px;
-  }
-
-  .intro-box h1 {
-    font-size: 22px;
-  }
-
-  .intro-box p {
-    font-size: 16px;
-  }
-
-  .intro-box li {
-    font-size: 15px;
-  }
-
-  button {
-    font-size: 16px;
-    padding: 14px;
-    width: 100%;
-  }
-
-  input[type="file"] {
-    font-size: 16px;
-    padding: 14px;
-    width: 100%;
-  }
-
-  .top-bar {
-    flex-direction: column;
-  }
-
   .grid {
     grid-template-columns: 1fr;
   }
 
-  .panel {
-    padding: 20px;
-    min-height: auto;
-  }
-
-  .panel img {
-    max-width: 100%;
-    height: auto;
+  .top-bar {
+    flex-direction: column;
   }
 }
