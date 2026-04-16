@@ -1,130 +1,56 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-  const els = {
-    input: document.getElementById("imageInput"),
-    preview: document.getElementById("previewImage"),
-    result: document.getElementById("result"),
-    loader: document.getElementById("loader"),
-    resultBox: document.getElementById("resultBox"),
-    donutFill: document.getElementById("donutFill"),
-    donutPercent: document.getElementById("donutPercent"),
-    resultLabel: document.getElementById("resultLabel"),
-    intro: document.getElementById("intro"),
-    app: document.getElementById("app")
-  };
+  const input = document.getElementById("imageInput");
+  const preview = document.getElementById("previewImage");
+  const result = document.getElementById("result");
+  const loader = document.getElementById("loader");
 
   const API_URL = "https://mi-detector-ia-backend.onrender.com";
 
-  // =========================
-  // CONFIG RANGOS PRO
-  // =========================
-  const RANGES = {
-    VERY_AI: 0.85,
-    PROB_AI: 0.65,
-    UNCERTAIN: 0.35,
-    PROB_REAL: 0.15
+  window.startApp = () => {
+    document.getElementById("intro").style.display = "none";
+    document.getElementById("app").classList.remove("hidden");
   };
 
-  if (els.preview) els.preview.style.display = "none";
+  input.addEventListener("change", () => {
+    const file = input.files[0];
 
-  // =========================
-  // UI
-  // =========================
-  function showLoader() {
-    els.loader?.classList.remove("hidden");
-  }
+    if (file) {
+      preview.src = URL.createObjectURL(file);
+      preview.style.display = "block";
+      result.innerText = `Imagen cargada: ${file.name}`;
 
-  function hideLoader() {
-    els.loader?.classList.add("hidden");
-  }
-
-  function resetUI() {
-    els.result.innerText = "";
-    els.resultBox?.classList.add("hidden");
-  }
-
-  function updateUI(score, percentage) {
-    let color, label, text;
-
-    if (score >= RANGES.VERY_AI) {
-      color = "#991b1b";
-      label = "IA muy probable";
-      text = `🚨 IA casi segura (${percentage}%)`;
-
-    } else if (score >= RANGES.PROB_AI) {
-      color = "#dc2626";
-      label = "Probablemente IA";
-      text = `⚠️ Probablemente IA (${percentage}%)`;
-
-    } else if (score >= RANGES.UNCERTAIN) {
-      color = "#f59e0b";
-      label = "Resultado incierto";
-      text = `🤔 Resultado incierto (${percentage}%)`;
-
-    } else if (score >= RANGES.PROB_REAL) {
-      color = "#16a34a";
-      label = "Probablemente real";
-      text = `🟢 Probablemente real (${(100 - percentage).toFixed(2)}%)`;
-
-    } else {
-      color = "#166534";
-      label = "Imagen real";
-      text = `✅ Imagen real (${(100 - percentage).toFixed(2)}%)`;
-    }
-
-    const angle = percentage * 3.6;
-
-    if (els.donutFill) {
-      els.donutFill.style.background =
-        `conic-gradient(${color} ${angle}deg, #e5e7eb ${angle}deg)`;
-    }
-
-    if (els.donutPercent) {
-      els.donutPercent.innerText = `${percentage}%`;
-    }
-
-    if (els.resultLabel) {
-      els.resultLabel.innerText = label;
-      els.resultLabel.style.color = color;
-    }
-
-    els.result.innerText = text;
-    els.result.style.color = color;
-
-    els.resultBox?.classList.remove("hidden");
-  }
-
-  // =========================
-  // EVENTOS
-  // =========================
-  els.input?.addEventListener("change", () => {
-    const file = els.input.files[0];
-
-    if (file && els.preview) {
-      els.preview.src = URL.createObjectURL(file);
-      els.preview.style.display = "block";
-      resetUI();
+      document.getElementById("resultBox").classList.add("hidden");
     }
   });
 
-  // =========================
-  // FUNCIONES GLOBALES
-  // =========================
-  window.startApp = () => {
-    els.intro.style.display = "none";
-    els.app.classList.remove("hidden");
-  };
+  function animatePercent(target) {
+    let current = 0;
+    const step = target / 25;
+
+    const interval = setInterval(() => {
+      current += step;
+
+      if (current >= target) {
+        current = target;
+        clearInterval(interval);
+      }
+
+      document.getElementById("donutPercent").innerText = `${current.toFixed(0)}%`;
+    }, 16);
+  }
 
   window.uploadImage = async () => {
-    if (!els.input?.files.length) {
-      els.result.innerText = "⚠️ Selecciona una imagen";
+
+    if (!input.files.length) {
+      result.innerText = "Selecciona una imagen";
       return;
     }
 
-    showLoader();
+    loader.classList.remove("hidden");
 
     const formData = new FormData();
-    formData.append("image", els.input.files[0]);
+    formData.append("image", input.files[0]);
 
     try {
       const res = await fetch(`${API_URL}/analyze`, {
@@ -132,22 +58,49 @@ document.addEventListener("DOMContentLoaded", () => {
         body: formData
       });
 
-      if (!res.ok) throw new Error();
-
       const data = await res.json();
-      const score = data?.type?.ai_generated;
 
-      if (score === undefined) throw new Error();
+      loader.classList.add("hidden");
+
+      const score = Number(data?.type?.ai_generated);
+
+      if (!Number.isFinite(score)) {
+        result.innerText = "Error en análisis";
+        return;
+      }
 
       const percentage = Number((score * 100).toFixed(2));
+      const angle = score * 360;
 
-      updateUI(score, percentage);
+      let color, label;
 
-    } catch (err) {
-      console.error(err);
-      els.result.innerText = "❌ Error al analizar";
-    } finally {
-      hideLoader();
+      if (score >= 0.75) {
+        color = "#b91c1c";
+        label = "Alta probabilidad de IA";
+      } else if (score >= 0.5) {
+        color = "#ea580c";
+        label = "Probabilidad media de IA";
+      } else {
+        color = "#16a34a";
+        label = "Baja probabilidad de IA";
+      }
+
+      document.getElementById("donutFill").style.background =
+        `conic-gradient(${color} ${angle}deg, #e5e7eb ${angle}deg)`;
+
+      animatePercent(percentage);
+
+      document.getElementById("resultLabel").innerText = label;
+      document.getElementById("resultLabel").style.color = color;
+
+      result.innerText = `Probabilidad de uso de IA: ${percentage}%`;
+      result.style.color = color;
+
+      document.getElementById("resultBox").classList.remove("hidden");
+
+    } catch (e) {
+      loader.classList.add("hidden");
+      result.innerText = "Error de conexión";
     }
   };
 
