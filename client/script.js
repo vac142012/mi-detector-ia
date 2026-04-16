@@ -7,9 +7,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const API_URL = "https://mi-detector-ia-backend.onrender.com";
 
-  // 🔥 asegurar loader oculto al inicio
-  if (loader) loader.classList.add("hidden");
-
   window.startApp = () => {
     document.getElementById("intro").style.display = "none";
     document.getElementById("app").classList.remove("hidden");
@@ -39,8 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
         clearInterval(interval);
       }
 
-      document.getElementById("donutPercent").innerText =
-        `${current.toFixed(0)}%`;
+      document.getElementById("donutPercent").innerText = `${current.toFixed(0)}%`;
     }, 16);
   }
 
@@ -62,9 +58,9 @@ document.addEventListener("DOMContentLoaded", () => {
         body: formData
       });
 
-      if (!res.ok) throw new Error();
-
       const data = await res.json();
+
+      loader.classList.add("hidden");
 
       const score = Number(data?.type?.ai_generated);
 
@@ -103,10 +99,8 @@ document.addEventListener("DOMContentLoaded", () => {
       document.getElementById("resultBox").classList.remove("hidden");
 
     } catch (e) {
-      result.innerText = "Error de conexión";
-    } finally {
-      // 🔥 SIEMPRE ocultar loader
       loader.classList.add("hidden");
+      result.innerText = "Error de conexión";
     }
   };
 
