@@ -8,89 +8,69 @@
 </head>
 <body>
 
-  <!-- HEADER -->
-  <header class="header">
-    <img
-      src="https://colegiocentenariomaipu.cl/wp-content/uploads/2020/07/Logoweb.png"
-      class="logo"
-      alt="logo"
-    />
+<header class="header">
+  <img src="https://colegiocentenariomaipu.cl/wp-content/uploads/2020/07/Logoweb.png" class="logo">
+  <div class="header-text">
+    <h1>Detector de Imágenes IA</h1>
+    <p>Asignatura: Tecnología</p>
+    <p>Curso: 1° Medio A</p>
+    <p>Alumnas: Victoria Aránguiz - Victoria Prat</p>
+  </div>
+</header>
 
-    <div class="header-text">
-      <h1>Detector de Imágenes IA</h1>
-      <p>Asignatura: Tecnología</p>
-      <p>Curso: 1° Medio A</p>
-      <p>Alumnas: Victoria Aránguiz - Victoria Prat</p>
-    </div>
-  </header>
+<div id="intro" class="intro">
+  <div class="intro-box">
+    <h1>Detector de Imágenes IA</h1>
+    <p>Este sistema estima la probabilidad de que una imagen haya sido generada por IA.</p>
+    <button onclick="startApp()">Comenzar</button>
+  </div>
+</div>
 
-  <!-- INTRO -->
-  <div id="intro" class="intro">
-    <div class="intro-box">
-      <h1>Detector de Imágenes IA</h1>
+<div id="app" class="container hidden">
 
-      <p>
-        Este sistema analiza imágenes y estima si fueron generadas por Inteligencia Artificial.
-      </p>
-
-      <h3>¿Cómo funciona?</h3>
-
-      <ul>
-        <li>Subes una imagen</li>
-        <li>Se analiza con IA</li>
-        <li>Obtienes un porcentaje</li>
-      </ul>
-
-      <button onclick="startApp()">Comenzar</button>
-    </div>
+  <div class="top-bar">
+    <label class="file-button">
+      Elegir imagen
+      <input type="file" id="imageInput" accept="image/*" hidden>
+    </label>
+    <button onclick="uploadImage()">Analizar</button>
   </div>
 
-  <!-- APP -->
-  <div id="app" class="container hidden">
+  <div class="grid">
 
-    <div class="top-bar">
-      <input type="file" id="imageInput" accept="image/*" />
-      <button onclick="uploadImage()">Analizar</button>
+    <div class="panel">
+      <h3>Imagen</h3>
+      <img id="previewImage">
     </div>
 
-    <div class="grid">
+    <div class="panel">
+      <h3>Resultado</h3>
 
-      <!-- IZQUIERDA -->
-      <div class="panel left">
-        <h3>Imagen</h3>
-        <img id="previewImage" />
+      <div id="loader" class="result-loader hidden">
+        <div class="spinner"></div>
+        Analizando...
       </div>
 
-      <!-- DERECHA -->
-      <div class="panel right">
-        <h3>Resultado</h3>
+      <p id="result">Selecciona una imagen</p>
 
-        <div id="loader" class="hidden">🔍 Analizando...</div>
-
-        <p id="result">Selecciona una imagen</p>
-
-        <div id="resultBox" class="result-box hidden">
-
-          <div class="donut-container">
-            <div class="donut">
-              <div id="donutFill" class="donut-fill"></div>
-              <div class="donut-center">
-                <span id="donutPercent">0%</span>
-              </div>
-            </div>
+      <div id="resultBox" class="result-box hidden">
+        <div class="donut">
+          <div id="donutFill" class="donut-fill"></div>
+          <div class="donut-center">
+            <span id="donutPercent">0%</span>
           </div>
-
-          <p id="resultLabel" class="result-label"></p>
         </div>
 
+        <p id="resultLabel"></p>
       </div>
 
     </div>
 
   </div>
 
-  <!-- IMPORTANTE -->
-  <script src="script.js" defer></script>
+</div>
+
+<script src="script.js" defer></script>
 
 </body>
 </html>
