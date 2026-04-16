@@ -10,7 +10,6 @@
 
   <!-- HEADER -->
   <header class="header">
-
     <img
       src="https://colegiocentenariomaipu.cl/wp-content/uploads/2020/07/Logoweb.png"
       class="logo"
@@ -23,14 +22,11 @@
       <p>Curso: 1° Medio A</p>
       <p>Alumnas: Victoria Aránguiz - Victoria Prat</p>
     </div>
-
   </header>
 
   <!-- INTRO -->
   <div id="intro" class="intro">
-
     <div class="intro-box">
-
       <h1>Detector de Imágenes IA</h1>
 
       <p>
@@ -46,9 +42,7 @@
       </ul>
 
       <button onclick="startApp()">Comenzar</button>
-
     </div>
-
   </div>
 
   <!-- APP -->
@@ -61,23 +55,20 @@
 
     <div class="grid">
 
-      <!-- PANEL IZQUIERDO -->
+      <!-- IZQUIERDA -->
       <div class="panel left">
         <h3>Imagen</h3>
         <img id="previewImage" />
       </div>
 
-      <!-- PANEL DERECHO -->
+      <!-- DERECHA -->
       <div class="panel right">
         <h3>Resultado</h3>
 
-        <!-- LOADER ORIGINAL (NO TOCADO) -->
         <div id="loader" class="hidden">🔍 Analizando...</div>
 
-        <!-- RESULTADO ORIGINAL (SE MANTIENE) -->
         <p id="result">Selecciona una imagen</p>
 
-        <!-- DONUT AGREGADO (NO ROMPE NADA) -->
         <div id="resultBox" class="result-box hidden">
 
           <div class="donut-container">
@@ -98,6 +89,8 @@
 
   </div>
 
-  <script src="script.js"></script>
+  <!-- IMPORTANTE -->
+  <script src="script.js" defer></script>
+
 </body>
 </html>
