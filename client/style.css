@@ -53,6 +53,12 @@ body {
   padding: 20px;
 }
 
+/* 🔥 FIX LOADER */
+.result-loader.hidden {
+  display: none;
+}
+
+/* (puedes dejar esto para otros elementos si quieres) */
 .hidden {
   display: none;
 }
