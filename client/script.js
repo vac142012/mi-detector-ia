@@ -7,6 +7,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const API_URL = "https://mi-detector-ia-backend.onrender.com";
 
+  // 🔥 asegurar que el loader NO se vea al inicio
+  if (loader) loader.classList.add("hidden");
+
   window.startApp = () => {
     document.getElementById("intro").style.display = "none";
     document.getElementById("app").classList.remove("hidden");
@@ -21,10 +24,16 @@ document.addEventListener("DOMContentLoaded", () => {
       result.innerText = `Imagen cargada: ${file.name}`;
 
       document.getElementById("resultBox").classList.add("hidden");
+
+      // 🔥 asegurar que loader esté oculto si cambian imagen
+      loader.classList.add("hidden");
     }
   });
 
   function animatePercent(target) {
+    const el = document.getElementById("donutPercent");
+    if (!el) return;
+
     let current = 0;
     const step = target / 25;
 
@@ -36,7 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
         clearInterval(interval);
       }
 
-      document.getElementById("donutPercent").innerText = `${current.toFixed(0)}%`;
+      el.innerText = `${current.toFixed(0)}%`;
     }, 16);
   }
 
@@ -47,6 +56,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
+    // 🔥 mostrar loader SOLO aquí
     loader.classList.remove("hidden");
 
     const formData = new FormData();
@@ -59,8 +69,6 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
       const data = await res.json();
-
-      loader.classList.add("hidden");
 
       const score = Number(data?.type?.ai_generated);
 
@@ -99,8 +107,10 @@ document.addEventListener("DOMContentLoaded", () => {
       document.getElementById("resultBox").classList.remove("hidden");
 
     } catch (e) {
-      loader.classList.add("hidden");
       result.innerText = "Error de conexión";
+    } finally {
+      // 🔥 SIEMPRE ocultar loader (clave)
+      loader.classList.add("hidden");
     }
   };
 
