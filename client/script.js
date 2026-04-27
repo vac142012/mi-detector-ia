@@ -77,7 +77,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      const percentage = Number((score * 100).toFixed(2));
+      const percentage = Math.round(score * 100);
       const angle = score * 360;
 
       let color, label;
@@ -104,12 +104,56 @@ document.addEventListener("DOMContentLoaded", () => {
       result.innerText = `Probabilidad de uso de IA: ${percentage}%`;
       result.style.color = color;
 
+      // =========================
+      // 🔥 EXPLICACIÓN DINÁMICA (MEJORADA)
+      // =========================
+      let explanationParts = [];
+
+      if (score < 0.3) {
+        explanationParts = [
+          "no se observan patrones artificiales claros",
+          "presencia de ruido natural en la imagen",
+          "variaciones orgánicas en iluminación y textura"
+        ];
+      } else if (score < 0.6) {
+        explanationParts = [
+          "ligeras inconsistencias en detalles finos",
+          "algunas transiciones de color poco naturales",
+          "cierta suavidad en texturas"
+        ];
+      } else if (score < 0.8) {
+        explanationParts = [
+          "texturas suavizadas sin ruido natural",
+          "iluminación homogénea poco realista",
+          "simetría artificial en estructuras o rostros"
+        ];
+      } else {
+        explanationParts = [
+          "ausencia de imperfecciones naturales",
+          "patrones repetitivos en la imagen",
+          "coherencia artificial global",
+          "bordes demasiado definidos o líneas inusualmente limpias"
+        ];
+      }
+
+      let explanation = "Se detectaron características asociadas a generación por IA, como " 
+        + explanationParts.join(", ") + ".";
+
+      if (score < 0.3) {
+        explanation = "La imagen parece natural: " + explanationParts.join(", ") + ".";
+      }
+
+      const explanationEl = document.getElementById("resultExplanation");
+      if (explanationEl) explanationEl.innerText = explanation;
+
+      // =========================
+
       document.getElementById("resultBox").classList.remove("hidden");
 
     } catch (e) {
       result.innerText = "Error de conexión";
     } finally {
-      // 🔥 SIEMPRE ocultar loader (clave)
+      // 🔥 SIEMPRE ocultar loader
       loader.classList.add("hidden");
     }
   };
