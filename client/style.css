@@ -196,3 +196,28 @@ body {
     flex-direction: column;
   }
 }
+.slide {
+  display: none;
+}
+
+.slide.active {
+  display: block;
+}
+
+.slide img {
+  width: 220px;
+  margin-bottom: 20px;
+}
+
+.intro-controls {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.skip {
+  background: transparent;
+  color: #6B7280;
+  box-shadow: none;
+}
