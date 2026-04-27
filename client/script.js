@@ -6,7 +6,28 @@ document.addEventListener("DOMContentLoaded", () => {
   const loader = document.getElementById("loader");
 
   const API_URL = "https://mi-detector-ia-backend.onrender.com";
+  // inicio nueva parte
+let currentSlide = 0;
 
+window.nextSlide = () => {
+  const slides = document.querySelectorAll("#presentation .slide");
+
+  slides[currentSlide].classList.remove("active");
+  currentSlide++;
+
+  if (currentSlide >= slides.length) {
+    skipPresentation();
+    return;
+  }
+
+  slides[currentSlide].classList.add("active");
+};
+
+window.skipPresentation = () => {
+  document.getElementById("presentation").style.display = "none";
+  document.getElementById("intro").style.display = "flex";
+};
+  // fin nueva parte
   // 🔥 asegurar que el loader NO se vea al inicio
   if (loader) loader.classList.add("hidden");
 
