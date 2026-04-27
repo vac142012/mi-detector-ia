@@ -205,8 +205,11 @@ body {
 }
 
 .slide img {
-  width: 90%;
-  max-width: 800px;
+  width: 80vw;          /* 🔥 relativo a la pantalla */
+  max-width: 1000px;    /* límite máximo */
+  height: auto;
+  border-radius: 16px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.15);
 }
 
 .intro-controls {
@@ -217,9 +220,16 @@ body {
 }
 
 .intro-slider {
+  width: 100%;
+  max-width: none;   /* 🔥 clave */
+  margin: 0 auto;
   text-align: center;
-  max-width: 700px;
-  margin: auto;
+}
+.intro {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #F8FAFC, #E6F4F1);
 }
 .skip {
   background: transparent;
