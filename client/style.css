@@ -5,6 +5,11 @@ body {
   color: #374151;
 }
 
+/* 🔥 OCULTAR HEADER EN PRESENTACIÓN */
+body.presentation-active .header {
+  display: none;
+}
+
 /* HEADER */
 .header {
   position: fixed;
@@ -75,7 +80,7 @@ body {
   margin-bottom: 20px;
 }
 
-/* BOTONES PRO */
+/* BOTONES */
 .file-button, button {
   background: linear-gradient(135deg, #9FD8CC, #5FB8A9);
   color: white;
@@ -186,16 +191,7 @@ body {
   line-height: 1.5;
 }
 
-/* MOBILE */
-@media (max-width: 768px) {
-  .grid {
-    grid-template-columns: 1fr;
-  }
-
-  .top-bar {
-    flex-direction: column;
-  }
-}
+/* SLIDES */
 .slide {
   display: none;
 }
@@ -205,8 +201,8 @@ body {
 }
 
 .slide img {
-  width: 80vw;          /* 🔥 relativo a la pantalla */
-  max-width: 1000px;    /* límite máximo */
+  width: 80vw;
+  max-width: 1000px;
   height: auto;
   border-radius: 16px;
   box-shadow: 0 12px 30px rgba(0,0,0,0.15);
@@ -221,18 +217,24 @@ body {
 
 .intro-slider {
   width: 100%;
-  max-width: none;   /* 🔥 clave */
+  max-width: none;
   margin: 0 auto;
   text-align: center;
 }
-.intro {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: linear-gradient(135deg, #F8FAFC, #E6F4F1);
-}
+
 .skip {
   background: transparent;
   color: #6B7280;
   box-shadow: none;
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .top-bar {
+    flex-direction: column;
+  }
 }
