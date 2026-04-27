@@ -172,3 +172,9 @@ body {
     flex-direction: column;
   }
 }
+.result-explanation {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #444;
+  line-height: 1.4;
+}
