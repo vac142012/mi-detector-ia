@@ -205,11 +205,8 @@ body {
 }
 
 .slide img {
-  width: 100%;
-  max-width: 600px;   /* tamaño tipo presentación */
-  height: auto;
-  border-radius: 16px;
-  box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+  width: 90%;
+  max-width: 800px;
 }
 
 .intro-controls {
