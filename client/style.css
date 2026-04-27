@@ -20,7 +20,10 @@ body {
 }
 
 .logo {
-  width: 50px;
+  width: 100px;
+}
+.logoT {
+  width: 250px;
 }
 
 .header-text h1 {
