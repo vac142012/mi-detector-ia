@@ -4,38 +4,56 @@ document.addEventListener("DOMContentLoaded", () => {
   const preview = document.getElementById("previewImage");
   const result = document.getElementById("result");
   const loader = document.getElementById("loader");
+  const header = document.querySelector(".header");
 
   const API_URL = "https://mi-detector-ia-backend.onrender.com";
-  // inicio nueva parte
-let currentSlide = 0;
 
-window.nextSlide = () => {
-  const slides = document.querySelectorAll("#presentation .slide");
+  // 🔥 OCULTAR HEADER AL INICIO
+  if (header) header.style.display = "none";
 
-  slides[currentSlide].classList.remove("active");
-  currentSlide++;
+  // =========================
+  // 🎬 PRESENTACIÓN (SLIDES)
+  // =========================
+  let currentSlide = 0;
 
-  if (currentSlide >= slides.length) {
-    skipPresentation();
-    return;
-  }
+  window.nextSlide = () => {
+    const slides = document.querySelectorAll("#presentation .slide");
 
-  slides[currentSlide].classList.add("active");
-};
+    slides[currentSlide].classList.remove("active");
+    currentSlide++;
 
-window.skipPresentation = () => {
-  document.getElementById("presentation").style.display = "none";
-  document.getElementById("intro").style.display = "flex";
-};
-  // fin nueva parte
-  // 🔥 asegurar que el loader NO se vea al inicio
-  if (loader) loader.classList.add("hidden");
+    if (currentSlide >= slides.length) {
+      skipPresentation();
+      return;
+    }
 
+    slides[currentSlide].classList.add("active");
+  };
+
+  window.skipPresentation = () => {
+    document.getElementById("presentation").style.display = "none";
+    document.getElementById("intro").style.display = "flex";
+
+    // 🔥 MOSTRAR HEADER
+    if (header) header.style.display = "flex";
+  };
+
+  // =========================
+  // 🚀 INICIO APP
+  // =========================
   window.startApp = () => {
     document.getElementById("intro").style.display = "none";
     document.getElementById("app").classList.remove("hidden");
   };
 
+  // =========================
+  // 🔥 LOADER INICIAL
+  // =========================
+  if (loader) loader.classList.add("hidden");
+
+  // =========================
+  // 📷 PREVIEW IMAGEN
+  // =========================
   input.addEventListener("change", () => {
     const file = input.files[0];
 
@@ -45,12 +63,13 @@ window.skipPresentation = () => {
       result.innerText = `Imagen cargada: ${file.name}`;
 
       document.getElementById("resultBox").classList.add("hidden");
-
-      // 🔥 asegurar que loader esté oculto si cambian imagen
       loader.classList.add("hidden");
     }
   });
 
+  // =========================
+  // 🔄 ANIMACIÓN DONUT
+  // =========================
   function animatePercent(target) {
     const el = document.getElementById("donutPercent");
     if (!el) return;
@@ -70,6 +89,9 @@ window.skipPresentation = () => {
     }, 16);
   }
 
+  // =========================
+  // 🧠 ANALIZAR IMAGEN
+  // =========================
   window.uploadImage = async () => {
 
     if (!input.files.length) {
@@ -77,7 +99,6 @@ window.skipPresentation = () => {
       return;
     }
 
-    // 🔥 mostrar loader SOLO aquí
     loader.classList.remove("hidden");
 
     const formData = new FormData();
@@ -90,7 +111,6 @@ window.skipPresentation = () => {
       });
 
       const data = await res.json();
-
       const score = Number(data?.type?.ai_generated);
 
       if (!Number.isFinite(score)) {
@@ -126,7 +146,7 @@ window.skipPresentation = () => {
       result.style.color = color;
 
       // =========================
-      // 🔥 EXPLICACIÓN DINÁMICA (MEJORADA)
+      // 🔥 EXPLICACIÓN DINÁMICA
       // =========================
       let explanationParts = [];
 
@@ -167,14 +187,11 @@ window.skipPresentation = () => {
       const explanationEl = document.getElementById("resultExplanation");
       if (explanationEl) explanationEl.innerText = explanation;
 
-      // =========================
-
       document.getElementById("resultBox").classList.remove("hidden");
 
     } catch (e) {
       result.innerText = "Error de conexión";
     } finally {
-      // 🔥 SIEMPRE ocultar loader
       loader.classList.add("hidden");
     }
   };
