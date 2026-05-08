@@ -7,6 +7,14 @@ document.addEventListener("DOMContentLoaded", () => {
   const header = document.querySelector(".header");
 
   const API_URL = "https://mi-detector-ia-backend.onrender.com";
+  const acceptTerms = document.getElementById("acceptTerms");
+  const startButton = document.getElementById("startButton");
+
+  if (acceptTerms && startButton) {
+    acceptTerms.addEventListener("change", () => {
+      startButton.disabled = !acceptTerms.checked;
+    });
+  }
 
   // 🔥 OCULTAR HEADER AL INICIO
   if (header) header.style.display = "none";
