@@ -50,10 +50,26 @@
 <!-- 🏠 INTRO ORIGINAL (oculto al inicio) -->
 <div id="intro" class="intro" style="display: none;">
   <div class="intro-box">
+
     <h1>Detector de Imágenes IA</h1>
+
     <img src="images/logo-detector.jpeg" class="logoT">
-    <p>Este sistema estima la probabilidad de que una imagen haya sido generada por IA.</p>
-    <button onclick="startApp()">Comenzar</button>
+
+    <p>
+      Este sistema estima la probabilidad de que una imagen haya sido generada por IA.
+    </p>
+
+    <div class="terms-box">
+      <label class="terms-label">
+        <input type="checkbox" id="acceptTerms">
+        Acepto términos de uso y procesamiento, además de las condiciones sobre el uso de imágenes y privacidad en la siguiente aplicación.
+      </label>
+    </div>
+
+    <button id="startButton" onclick="startApp()" disabled>
+      Comenzar
+    </button>
+
   </div>
 </div>
 
